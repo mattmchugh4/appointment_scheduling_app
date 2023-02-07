@@ -1,8 +1,6 @@
 package main;
 
 
-import dao.JDBC;
-import dao.query;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,7 +11,6 @@ import javafx.stage.Stage;
 public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
-        System.out.println("Hello world!");
     }
 
 
@@ -27,8 +24,6 @@ public class Main extends Application {
         stage.setTitle("First Screen");
         stage.setScene(new Scene(root, 600, 400));
         stage.show();
-        JDBC.openConnection();
-        query.select();
     }
 
 
