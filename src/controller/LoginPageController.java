@@ -5,9 +5,14 @@ import javafx.fxml.Initializable;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class FirstScreen implements Initializable {
+public class LoginPageController implements Initializable {
+    /**
+     *
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println("Hit");
+
     }
 }
