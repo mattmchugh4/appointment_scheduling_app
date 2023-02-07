@@ -1,6 +1,7 @@
 package main;
 
 
+import dao.JDBC;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -25,6 +26,7 @@ public class Main extends Application {
         stage.setTitle("First Screen");
         stage.setScene(new Scene(root, 600, 400));
         stage.show();
+        JDBC.openConnection();
     }
 
 
