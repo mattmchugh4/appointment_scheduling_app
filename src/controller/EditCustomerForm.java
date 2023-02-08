@@ -9,7 +9,6 @@
 
 package controller;
 
-import dao.JDBC;
 import dao.Query;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,7 +26,6 @@ import model.Customer;
 import utilities.Utility;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -64,6 +62,12 @@ public class EditCustomerForm implements Initializable {
             "Quebec", "Saskatchewan", "Yukon"
     };
 
+    /**
+     * This method is used as a controller to pass the customer selected to edit into this class. The information from
+     * the passed customer is used to populate the form text fields.
+     * @param customerToModify
+     * @throws SQLException
+     */
     public void getCustomer(Customer customerToModify) throws SQLException {
         customerID = customerToModify.getId();
         customerIDInput.setText(String.valueOf(customerID));
@@ -73,13 +77,11 @@ public class EditCustomerForm implements Initializable {
         phoneInput.setText(customerToModify.getPhone());
         int countryID = -1;
 
-
         String getCoutryStatement = "SELECT Country_ID FROM first_level_divisions WHERE Division_ID = ?";
         ResultSet countryResult = Query.run(getCoutryStatement, customerToModify.getDivision());
         if (countryResult.next()) {
             countryID = countryResult.getInt("Country_ID");
         }
-        System.out.println(countryID);
         switch (countryID) {
             case 1:
                 countryBox.setValue("U.S.");
@@ -119,7 +121,9 @@ public class EditCustomerForm implements Initializable {
         });
     }
     /**
-     * Handle the event when the save button is clicked and inserts a new customer into the database.
+     * Handles the event when the save button is clicked. If the inputs are valid, the change is saved and the user is
+     * returned out of the edit form. If the inputs are not valid, an error message is shown to the user and no changes
+     * are saved.
      *
      * @param actionEvent ActionEvent
      * @throws IOException Input/Output Exception
@@ -155,7 +159,7 @@ public class EditCustomerForm implements Initializable {
         newStage.show();
     }
     /**
-     * Handle the event when the cancel button is clicked. The view is closed without saving changes.
+     * Handles the event when the cancel button is clicked. The view is closed without saving changes.
      *
      * @param actionEvent ActionEvent
      * @throws IOException Input/Output Exception
