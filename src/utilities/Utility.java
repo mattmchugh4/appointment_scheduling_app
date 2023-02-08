@@ -9,14 +9,16 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import model.Customer;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public abstract class Utility {
+
     public static ObservableList<Customer> getAllCustomers() throws SQLException, Exception{
         ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
         String sqlStatement = "SELECT * FROM CUSTOMERS";
-        ResultSet result = Query.makeQuery(sqlStatement);
+        ResultSet result = Query.run(sqlStatement);
         while(result.next()){
             int id = result.getInt("Customer_ID");
             String name = result.getString("Customer_Name");

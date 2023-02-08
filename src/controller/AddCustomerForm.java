@@ -101,10 +101,10 @@ public class AddCustomerForm implements Initializable {
             Utility.setErrorMessage(systemMessageText, "You must enter valid values for all fields to save a new customer.");
             return;
         }
-        String sqlStatement = "SELECT Division_ID FROM first_level_divisions WHERE Division = '" + newState + "'";
-        ResultSet result = Query.makeQuery(sqlStatement);
-        if (result.next()) {
-            newDivision = result.getInt("Division_ID");
+        String getDivision = "SELECT Division_ID FROM first_level_divisions WHERE Division = ?";
+        ResultSet stateResult = Query.run(getDivision, newState);
+        if (stateResult.next()) {
+            newDivision = stateResult.getInt("Division_ID");
         }
 
         String sql = "INSERT INTO customers(Customer_Name, Address, Postal_Code, Phone, Division_ID) VALUES (?, ?, ?, ?, ?)";

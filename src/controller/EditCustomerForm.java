@@ -23,6 +23,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import model.Customer;
 import utilities.Utility;
 import java.io.IOException;
 import java.net.URL;
@@ -61,6 +62,23 @@ public class EditCustomerForm implements Initializable {
             "Northwest Territories", "Nova Scotia", "Nunavut", "Ontario", "Prince Edward Island",
             "Quebec", "Saskatchewan", "Yukon"
     };
+
+//    public void getCustomer(Customer customerToModify) {
+//        customerIDInput.setText(String.valueOf(customerToModify.getId()));
+//        nameInput.setText(customerToModify.getName());
+//        addressInput.setText(customerToModify.getAddress());
+//        zipInput.setText(customerToModify.getZip());
+//        phoneInput.setText(customerToModify.getPhone());
+//        stateBox.setValue(customerToModify.getState());
+////        countryBox.set
+//        String sqlStatement = "SELECT Division_ID FROM first_level_divisions WHERE Division = '" + custo + "'";
+//        ResultSet result = Query.makeQuery(sqlStatement);
+//        if (result.next()) {
+//            newDivision = result.getInt("Division_ID");
+//        }
+
+
+//    }
     /**
      * Initialize the combo box of countries and creates the listener to set the list for the division combo box when the country changes.
      *
@@ -103,7 +121,7 @@ public class EditCustomerForm implements Initializable {
             return;
         }
         String sqlStatement = "SELECT Division_ID FROM first_level_divisions WHERE Division = '" + newState + "'";
-        ResultSet result = Query.makeQuery(sqlStatement);
+        ResultSet result = Query.run(sqlStatement);
         if (result.next()) {
             newDivision = result.getInt("Division_ID");
         }
