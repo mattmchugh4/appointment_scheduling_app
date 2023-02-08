@@ -29,5 +29,6 @@
             <Font size="27.0" />
          </font>
       </Text>
+      <Text fx:id="systemMessageText" layoutX="289.0" layoutY="374.0" strokeType="OUTSIDE" strokeWidth="0.0" text="System Message" visible="false" />
    </children>
 </AnchorPane>
