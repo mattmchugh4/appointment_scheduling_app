@@ -19,8 +19,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.ZoneId;
 import java.util.Date;
+import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 
 public class LoginController implements Initializable {
     public Label UserLocationLabel;
@@ -28,9 +31,28 @@ public class LoginController implements Initializable {
     public TextField UsernameTextInput;
     public Text systemMessageText;
     private Parent scene;
+    private ResourceBundle resourceBundle;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        TimeZone userTimeZone = TimeZone.getDefault();
+        ZoneId userZone = userTimeZone.toZoneId();
+        UserLocationLabel.setText(userZone.toString());
+
+//        Locale userLocale = Locale.getDefault();
+//        this.resourceBundle = ResourceBundle.getBundle("translations/Translations", userLocale);
+//        systemMessageText.setText(this.resourceBundle.getString("LoginError"));
+//
+//        ResourceBundle bundle = ResourceBundle.getBundle("LoginController", Locale.FRANCE);
+//        UserLocationLabel.setText(bundle.getString("UserLocationLabel"));
+//...
+//        bufferedWriter.write(MessageFormat.format(bundle.getString("logLine"), username, new Date()));
+//...
+//        String attemptLine = bundle.getString("attemptLine." + (isSuccessful ? "successful" : "failed"));
+//        bufferedWriter.write(attemptLine);
+//...
+//        loginPageStage.setTitle(bundle.getString("LoginPageForm.title"));
 
     }
 
@@ -60,11 +82,11 @@ public class LoginController implements Initializable {
             String returnedPassword = stateResult.getString("Password");
             if (returnedPassword.equals(password)) {
                 bufferedWriter.newLine();
-                String attemptLine = "Login attempt successful";
-                bufferedWriter.write(attemptLine);
+                String successfulAttempt = "Login attempt successful";
+                bufferedWriter.write(successfulAttempt);
                 bufferedWriter.close();
                 Stage loginPageStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-                scene = FXMLLoader.load(getClass().getResource("/view/LoginPageForm.fxml"));
+                scene = FXMLLoader.load(getClass().getResource("/view/Default.fxml"));
                 loginPageStage.setTitle("Application Page");
                 loginPageStage.setScene(new Scene(scene));
                 loginPageStage.show();
@@ -72,8 +94,8 @@ public class LoginController implements Initializable {
             }
         }
         bufferedWriter.newLine();
-        String attemptLine = "Login attempt failed";
-        bufferedWriter.write(attemptLine);
+        String failedAttempt = "Login attempt failed";
+        bufferedWriter.write(failedAttempt);
         Utility.setErrorMessage(systemMessageText, "Invalid Username/Password");
         bufferedWriter.close();
     }

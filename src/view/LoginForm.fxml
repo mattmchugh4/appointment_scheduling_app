@@ -22,8 +22,14 @@
          </font>
       </Label>
       <Button layoutX="277.0" layoutY="212.0" mnemonicParsing="false" onAction="#OnClIckLoginButton" text="Login" />
-      <Text layoutX="14.0" layoutY="382.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location:" />
-      <Label fx:id="UserLocationLabel" layoutX="68.0" layoutY="369.0" text="Test" />
+      <Text layoutX="14.0" layoutY="382.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location:">
+         <font>
+            <Font size="14.0" />
+         </font></Text>
+      <Label fx:id="UserLocationLabel" layoutX="75.0" layoutY="367.0" text="Test">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
       <Text layoutX="196.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Application Login">
          <font>
             <Font size="27.0" />
