@@ -77,7 +77,26 @@ public class LoginPageController implements Initializable {
     public void onDeleteCustomer(ActionEvent actionEvent) {
     }
 
-    public void onUpdateCustomer(ActionEvent actionEvent) {
+    public void onEditCustomer(ActionEvent actionEvent) throws IOException {
+
+        try {
+            Customer selectedCustomer = customerTable.getSelectionModel().getSelectedItem();
+
+            Stage newStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(getClass().getResource("/view/EditCustomerForm.fxml"));
+
+            ModifyPartFormController modPartController  = modifyPartLoader.getController();
+            modPartController.getPart(selectedPart);
+
+            newStage.setTitle("Edit Customer");
+            newStage.setScene(new Scene(scene));
+            newStage.show();
+        } catch (NullPointerException e) {
+            Alert noPartSelected = new Alert(Alert.AlertType.ERROR);
+            noPartSelected.setTitle("Error Dialog");
+            noPartSelected.setContentText("You must select a part to modify.");
+            noPartSelected.showAndWait();
+        }
     }
 
     public void onAddCustomer(ActionEvent actionEvent) throws IOException {

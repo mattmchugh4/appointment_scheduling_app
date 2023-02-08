@@ -22,7 +22,7 @@
         <buttons>
           <Button mnemonicParsing="false" onAction="#onAddAppointment" text="Add Appointment" />
             <Button mnemonicParsing="false" onAction="#onAddCustomer" text="Add Customer" />
-            <Button mnemonicParsing="false" onAction="#onUpdateCustomer" text="Update Customer" />
+            <Button mnemonicParsing="false" onAction="#onEditCustomer" text="Edit Customer" />
             <Button mnemonicParsing="false" onAction="#onDeleteCustomer" text="Delete Customer" />
         </buttons>
       </ButtonBar>
