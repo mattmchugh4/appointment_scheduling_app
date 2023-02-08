@@ -5,15 +5,21 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.Customer;
 import utilities.Utility;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -39,6 +45,8 @@ public class LoginPageController implements Initializable {
 
     @FXML
     public TableView<Customer> customerTable;
+
+    private Parent scene;
 
     /**
      *
@@ -72,7 +80,12 @@ public class LoginPageController implements Initializable {
     public void onUpdateCustomer(ActionEvent actionEvent) {
     }
 
-    public void onAddCustomer(ActionEvent actionEvent) {
+    public void onAddCustomer(ActionEvent actionEvent) throws IOException {
+        Stage newStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/view/AddCustomerForm.fxml"));
+        newStage.setTitle("Add Customer");
+        newStage.setScene(new Scene(scene));
+        newStage.show();
     }
 
     public void onAddAppointment(ActionEvent actionEvent) {
