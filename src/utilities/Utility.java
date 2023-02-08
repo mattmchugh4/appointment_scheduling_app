@@ -32,6 +32,23 @@ public abstract class Utility {
         }
         return allCustomers;
     }
+    public static ObservableList<Appointment> getAllAppointments() throws SQLException, Exception{
+        ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
+        String sqlStatement = "SELECT * FROM CUSTOMERS";
+        ResultSet result = Query.run(sqlStatement);
+        while(result.next()){
+            int id = result.getInt("Customer_ID");
+            String name = result.getString("Customer_Name");
+            String address = result.getString("Address");
+            String phone = result.getString("Phone");
+            String zip = result.getString("Postal_Code");
+            int division = result.getInt("Division_ID");
+            Customer newCustomer = new Customer(id, name, address, zip, phone, division);
+            allCustomers.add(newCustomer);
+        }
+        return allCustomers;
+    }
+
     public static void setErrorMessage(Text textObject,String message) {
         textObject.setText(message);
         textObject.setFill(Color.RED);
