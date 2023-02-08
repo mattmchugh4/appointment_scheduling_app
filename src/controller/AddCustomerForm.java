@@ -107,14 +107,8 @@ public class AddCustomerForm implements Initializable {
             newDivision = stateResult.getInt("Division_ID");
         }
 
-        String sql = "INSERT INTO customers(Customer_Name, Address, Postal_Code, Phone, Division_ID) VALUES (?, ?, ?, ?, ?)";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setString(1, newName);
-        ps.setString(2, newAddress);
-        ps.setString(3, newZip);
-        ps.setString(4, newPhone);
-        ps.setInt(5, newDivision);
-        ps.executeUpdate();
+        String insertStatement = "INSERT INTO customers(Customer_Name, Address, Postal_Code, Phone, Division_ID) VALUES (?, ?, ?, ?, ?)";
+        Query.run(insertStatement, newName, newAddress, newZip, newPhone, newDivision);
 
         Stage newStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/LoginPageForm.fxml"));

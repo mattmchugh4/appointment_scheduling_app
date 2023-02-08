@@ -8,8 +8,8 @@ import java.sql.Statement;
 
 public abstract class Query {
 
-
     public static ResultSet run(String sql, Object... values) throws SQLException {
+        ResultSet result = null;
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         for (int i = 0; i < values.length; i++) {
             Object value = values[i];
@@ -19,7 +19,12 @@ public abstract class Query {
                 ps.setInt(i + 1, (Integer) value);
             }
         }
-        return ps.executeQuery();
+        if(sql.toLowerCase().startsWith("select")) {
+            result = ps.executeQuery();
+        }
+        if(sql.toLowerCase().startsWith("delete") || sql.toLowerCase().startsWith("insert") || sql.toLowerCase().startsWith("update")) {
+            ps.executeUpdate();
+        }
+        return result;
     }
 }
-
