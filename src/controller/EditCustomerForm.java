@@ -42,6 +42,7 @@ public class EditCustomerForm implements Initializable {
     public Text systemMessageText;
     public TextField customerIDInput;
     private Parent scene;
+    private int customerID;
     private static final String[] US_States = {
             "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado",
             "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho",
@@ -63,22 +64,39 @@ public class EditCustomerForm implements Initializable {
             "Quebec", "Saskatchewan", "Yukon"
     };
 
-//    public void getCustomer(Customer customerToModify) {
-//        customerIDInput.setText(String.valueOf(customerToModify.getId()));
-//        nameInput.setText(customerToModify.getName());
-//        addressInput.setText(customerToModify.getAddress());
-//        zipInput.setText(customerToModify.getZip());
-//        phoneInput.setText(customerToModify.getPhone());
-//        stateBox.setValue(customerToModify.getState());
-////        countryBox.set
-//        String sqlStatement = "SELECT Division_ID FROM first_level_divisions WHERE Division = '" + custo + "'";
-//        ResultSet result = Query.makeQuery(sqlStatement);
-//        if (result.next()) {
-//            newDivision = result.getInt("Division_ID");
-//        }
+    public void getCustomer(Customer customerToModify) throws SQLException {
+        customerID = customerToModify.getId();
+        customerIDInput.setText(String.valueOf(customerID));
+        nameInput.setText(customerToModify.getName());
+        addressInput.setText(customerToModify.getAddress());
+        zipInput.setText(customerToModify.getZip());
+        phoneInput.setText(customerToModify.getPhone());
+        int countryID = -1;
 
 
-//    }
+        String getCoutryStatement = "SELECT Country_ID FROM first_level_divisions WHERE Division_ID = ?";
+        ResultSet countryResult = Query.run(getCoutryStatement, customerToModify.getDivision());
+        if (countryResult.next()) {
+            countryID = countryResult.getInt("Country_ID");
+        }
+        System.out.println(countryID);
+        switch (countryID) {
+            case 1:
+                countryBox.setValue("U.S.");
+                break;
+            case 2:
+                countryBox.setValue("UK");
+                break;
+            case 3:
+                countryBox.setValue("Canada");
+                break;
+        }
+        String getDivisionStatement = "SELECT Division FROM first_level_divisions WHERE Division_ID = ?";
+        ResultSet divisionResult = Query.run(getDivisionStatement, customerToModify.getDivision());
+        if (divisionResult.next()) {
+            stateBox.setValue(divisionResult.getString("Division"));
+        }
+    }
     /**
      * Initialize the combo box of countries and creates the listener to set the list for the division combo box when the country changes.
      *
@@ -117,23 +135,18 @@ public class EditCustomerForm implements Initializable {
         int newDivision = -1;
 
         if(newName.isEmpty() || newAddress.isEmpty() || newZip.isEmpty() || newPhone.isEmpty() || newState.isEmpty()) {
-            Utility.setErrorMessage(systemMessageText, "You must enter valid values for all fields to save a new customer.");
+            Utility.setErrorMessage(systemMessageText, "You must have valid values for all fields to save a change to a customer.");
             return;
         }
-        String sqlStatement = "SELECT Division_ID FROM first_level_divisions WHERE Division = '" + newState + "'";
-        ResultSet result = Query.run(sqlStatement);
-        if (result.next()) {
-            newDivision = result.getInt("Division_ID");
+
+        String getDivision = "SELECT Division_ID FROM first_level_divisions WHERE Division = ?";
+        ResultSet stateResult = Query.run(getDivision, newState);
+        if (stateResult.next()) {
+            newDivision = stateResult.getInt("Division_ID");
         }
 
-        String sql = "INSERT INTO customers(Customer_Name, Address, Postal_Code, Phone, Division_ID) VALUES (?, ?, ?, ?, ?)";
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ps.setString(1, newName);
-        ps.setString(2, newAddress);
-        ps.setString(3, newZip);
-        ps.setString(4, newPhone);
-        ps.setInt(5, newDivision);
-        ps.executeUpdate();
+        String updateStatement = "UPDATE customers SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, Division_ID = ? WHERE Customer_ID = ?";
+        Query.run(updateStatement,newName, newAddress, newZip, newPhone, newDivision, customerID);
 
         Stage newStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/LoginPageForm.fxml"));

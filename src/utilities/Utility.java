@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import model.Customer;
 
@@ -34,6 +35,8 @@ public abstract class Utility {
     public static void setErrorMessage(Text textObject,String message) {
         textObject.setText(message);
         textObject.setFill(Color.RED);
+        textObject.setFont(new Font(16));
+
         AnchorPane parent = (AnchorPane) textObject.getParent();
         parent.setLeftAnchor(textObject, parent.getWidth() / 2 - textObject.getLayoutBounds().getWidth() / 2);
         parent.setRightAnchor(textObject, parent.getWidth() / 2 + textObject.getLayoutBounds().getWidth() / 2);

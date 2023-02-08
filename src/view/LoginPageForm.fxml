@@ -5,6 +5,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginPageController">
    <children>
@@ -26,5 +27,6 @@
             <Button mnemonicParsing="false" onAction="#onDeleteCustomer" text="Delete Customer" />
         </buttons>
       </ButtonBar>
+      <Text fx:id="systemMessageText" layoutX="439.0" layoutY="564.0" strokeType="OUTSIDE" strokeWidth="0.0" text="System Message" visible="false" />
    </children>
 </AnchorPane>

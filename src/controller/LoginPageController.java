@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -21,6 +22,7 @@ import utilities.Utility;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class LoginPageController implements Initializable {
@@ -45,6 +47,7 @@ public class LoginPageController implements Initializable {
 
     @FXML
     public TableView<Customer> customerTable;
+    public Text systemMessageText;
 
     private Parent scene;
 
@@ -78,24 +81,25 @@ public class LoginPageController implements Initializable {
     }
 
     public void onEditCustomer(ActionEvent actionEvent) throws IOException {
-//
-//        try {
-//            Customer selectedCustomer = customerTable.getSelectionModel().getSelectedItem();
-//
-//            ModifyPartFormController modPartController  = modifyPartLoader.getController();
-//            modPartController.getPart(selectedPart);
-//
-//            Stage newStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-//            scene = FXMLLoader.load(getClass().getResource("/view/EditCustomerForm.fxml"));
-//            newStage.setTitle("Edit Customer");
-//            newStage.setScene(new Scene(scene));
-//            newStage.show();
-//        } catch (NullPointerException e) {
-//            Alert noPartSelected = new Alert(Alert.AlertType.ERROR);
-//            noPartSelected.setTitle("Error Dialog");
-//            noPartSelected.setContentText("You must select a part to modify.");
-//            noPartSelected.showAndWait();
-//        }
+        try {
+            Customer selectedCustomer = customerTable.getSelectionModel().getSelectedItem();
+
+            Stage newStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+
+            FXMLLoader editCustomerLoader = new FXMLLoader();
+            editCustomerLoader.setLocation(getClass().getResource("/view/EditCustomerForm.fxml"));
+            editCustomerLoader.load();
+            scene = editCustomerLoader.getRoot();
+            EditCustomerForm editCustomerController = editCustomerLoader.getController();
+            editCustomerController.getCustomer(selectedCustomer);
+
+            newStage.setTitle("Edit Customer");
+            newStage.setScene(new Scene(scene));
+            newStage.show();
+
+        } catch (NullPointerException | SQLException e) {
+            Utility.setErrorMessage(systemMessageText, "You must select a customer to edit.");
+        }
     }
 
     public void onAddCustomer(ActionEvent actionEvent) throws IOException {
