@@ -9,7 +9,6 @@
 
 package controller;
 
-import dao.JDBC;
 import dao.Query;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,7 +25,6 @@ import javafx.stage.Stage;
 import utilities.Utility;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -98,7 +96,7 @@ public class AddCustomerForm implements Initializable {
         int newDivision = -1;
 
         if(newName.isEmpty() || newAddress.isEmpty() || newZip.isEmpty() || newPhone.isEmpty() || newState.isEmpty()) {
-            Utility.setErrorMessage(systemMessageText, "You must have valid values for all fields to save a new customer.");
+            Utility.setErrorMessage(systemMessageText, "You must enter valid values for all fields to save a new customer.");
             return;
         }
         String getDivision = "SELECT Division_ID FROM first_level_divisions WHERE Division = ?";

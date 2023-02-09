@@ -22,7 +22,7 @@ public class Default {
 
     public void onClickApplication(ActionEvent actionEvent) throws IOException {
         Stage loginPageStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/view/AppointmentForm.fxml"));
+        scene = FXMLLoader.load(getClass().getResource("/view/ViewAppointmentsForm.fxml"));
         loginPageStage.setTitle("Application Page");
         loginPageStage.setScene(new Scene(scene));
         loginPageStage.show();

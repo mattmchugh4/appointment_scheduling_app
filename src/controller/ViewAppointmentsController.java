@@ -21,7 +21,7 @@ import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ResourceBundle;
 
-public class AppointmentForm implements Initializable {
+public class ViewAppointmentsController implements Initializable {
 
     @FXML
     public TableView<Appointment> appointmentTable;

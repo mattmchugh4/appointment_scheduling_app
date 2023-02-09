@@ -1,6 +1,5 @@
 package utilities;
 
-import dao.JDBC;
 import dao.Query;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,14 +9,21 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import model.Appointment;
 import model.Customer;
-
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
 public abstract class Utility {
-
+        public static final ObservableList<String> HOURS = FXCollections.observableArrayList();
+        public static final ObservableList<String> MINUTES = FXCollections.observableArrayList();
+        static {
+            for (int i = 1; i <= 24; i++) {
+                HOURS.add(String.valueOf(i));
+            }
+            for (int i = 0; i <= 59; i++) {
+                MINUTES.add(String.format("%02d", i));
+            }
+        }
     public static ObservableList<Customer> getAllCustomers() throws SQLException, Exception{
         ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
         String sqlStatement = "SELECT * FROM customers";

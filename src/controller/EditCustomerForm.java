@@ -139,7 +139,7 @@ public class EditCustomerForm implements Initializable {
         int newDivision = -1;
 
         if(newName.isEmpty() || newAddress.isEmpty() || newZip.isEmpty() || newPhone.isEmpty() || newState.isEmpty()) {
-            Utility.setErrorMessage(systemMessageText, "You must have valid values for all fields to save a change to a customer.");
+            Utility.setErrorMessage(systemMessageText, "You must enter valid values for all fields to save a change to a customer.");
             return;
         }
 
