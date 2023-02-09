@@ -17,8 +17,8 @@
             <TableColumn fx:id="typeColumn" prefWidth="54.0" text="Type" />
             <TableColumn fx:id="startColumn" prefWidth="106.0" text="Start Date/Time" />
             <TableColumn fx:id="endColumn" prefWidth="91.0" text="End Date/Time" />
-            <TableColumn fx:id="customerIDColumn" prefWidth="88.0" text="Customer ID" />
-            <TableColumn fx:id="userIDColumn" prefWidth="61.0" text="User ID" />
+            <TableColumn fx:id="customerNameColumn" prefWidth="88.0" text="Customer" />
+            <TableColumn fx:id="userNameColumn" prefWidth="61.0" text="User" />
         </columns>
       </TableView>
       <Button layoutX="398.0" layoutY="411.0" mnemonicParsing="false" onAction="#onAddAppointment" text="Add Appointment" />

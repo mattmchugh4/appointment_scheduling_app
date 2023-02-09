@@ -1,9 +1,6 @@
 package dao;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 
 public abstract class Query {
@@ -17,6 +14,8 @@ public abstract class Query {
                 ps.setString(i + 1, (String) value);
             } else if (value instanceof Integer) {
                 ps.setInt(i + 1, (Integer) value);
+            } else if(value instanceof Timestamp) {
+                ps.setTimestamp(i + 1, (Timestamp) value);
             }
         }
         if(sql.toLowerCase().startsWith("select")) {

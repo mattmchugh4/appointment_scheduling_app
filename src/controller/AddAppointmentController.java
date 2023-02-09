@@ -86,33 +86,39 @@ public class AddAppointmentController implements Initializable {
         String newDescription = descriptionInput.getText();
         String newLocation = locationInput.getText();
         String newType = typeInput.getText();
-        String newCustomer = (String) customerBox.getValue();
-        String newUser = (String) userBox.getValue();
-        String newContact = (String) contactBox.getValue();
+        String newCustomerName = (String) customerBox.getValue();
+        String newUserName = (String) userBox.getValue();
+        String newContactName = (String) contactBox.getValue();
         LocalDate newAppointmentDate = appointmentDate.getValue();
         String newStartHour = (String) startHour.getValue();
         String newStartMinute = (String) startMinute.getValue();
         String newEndHour = (String) endHour.getValue();
         String newEndMinute = (String) endMinute.getValue();
 
-        LocalDateTime newLocalDateTime = LocalDateTime.of(newAppointmentDate, LocalTime.of(Integer.parseInt(newStartHour), Integer.parseInt(newStartMinute)));
-        ZonedDateTime newUTCDateTime = ZonedDateTime.of(newLocalDateTime, ZoneId.of("UTC"));
-        Timestamp startTimestamp = Timestamp.valueOf(newUTCDateTime.toLocalDateTime());
+        int newContactID = Utility.getContactID(newContactName);
+        int newUserID = Utility.getUserID(newUserName);
+        int newCustomerID = Utility.getCustomerID(newCustomerName);
 
-        System.out.println(startTimestamp);
+        LocalDateTime newLocalStartTime = LocalDateTime.of(newAppointmentDate, LocalTime.of(Integer.parseInt(newStartHour), Integer.parseInt(newStartMinute)));
+        Timestamp newStart = Utility.convertTimeToUTC(newLocalStartTime);
 
+        LocalDateTime newLocalEndTime = LocalDateTime.of(newAppointmentDate, LocalTime.of(Integer.parseInt(newStartHour), Integer.parseInt(newStartMinute)));
+        Timestamp newEnd = Utility.convertTimeToUTC(newLocalEndTime);
 
-
-
-        if (newTitle == null || newDescription == null || newLocation == null || newType == null || newCustomer == null ||
-                newUser == null || newContact == null || newAppointmentDate == null || newStartHour == null ||
+        if (newTitle == null || newDescription == null || newLocation == null || newType == null || newCustomerName == null ||
+                newUserName == null || newContactName == null || newAppointmentDate == null || newStartHour == null ||
                 newStartMinute == null || newEndHour == null || newEndMinute == null) {
             Utility.setErrorMessage(systemMessageText, "You must enter valid values for all fields to save a new appointment.");
             return;
         }
 
-//        String insertStatement = "INSERT INTO appointments(Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-//        Query.run(insertStatement, newTitle, newDescription, newLocation, newType, newStart, newEnd, newCustomer, newContact, newUser);
+        if(newStart.compareTo(newEnd) >= 0) {
+            Utility.setErrorMessage(systemMessageText, "Appointment end time must be after start time.");
+            return;
+        }
+
+        String insertStatement = "INSERT INTO appointments(Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        Query.run(insertStatement, newTitle, newDescription, newLocation, newType, newStart, newEnd, newCustomerID, newContactID, newUserID);
 
         Stage newStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/ViewAppointmentsForm.fxml"));

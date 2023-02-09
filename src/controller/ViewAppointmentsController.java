@@ -42,9 +42,9 @@ public class ViewAppointmentsController implements Initializable {
     @FXML
     public TableColumn<Appointment, Timestamp> endColumn;
     @FXML
-    public TableColumn<Appointment, Integer> customerIDColumn;
+    public TableColumn<Appointment, String> customerNameColumn;
     @FXML
-    public TableColumn<Appointment, Integer> userIDColumn;
+    public TableColumn<Appointment, String> userNameColumn;
     private Parent scene;
 
 
@@ -59,8 +59,8 @@ public class ViewAppointmentsController implements Initializable {
             typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
             startColumn.setCellValueFactory(new PropertyValueFactory<>("start"));
             endColumn.setCellValueFactory(new PropertyValueFactory<>("end"));
-            customerIDColumn.setCellValueFactory(new PropertyValueFactory<>("customerID"));
-            userIDColumn.setCellValueFactory(new PropertyValueFactory<>("userID"));
+            customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+            userNameColumn.setCellValueFactory(new PropertyValueFactory<>("UserName"));
             contactColumn.setCellValueFactory(new PropertyValueFactory<>("contactName"));
 
             ObservableList<Appointment> appointments = FXCollections.observableArrayList();

@@ -12,6 +12,10 @@ import model.Customer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 public abstract class Utility {
         public static final ObservableList<String> HOURS = FXCollections.observableArrayList();
@@ -40,6 +44,11 @@ public abstract class Utility {
         }
         return allCustomers;
     }
+    public static Timestamp convertTimeToUTC(LocalDateTime localDateTime) {
+        ZonedDateTime newZonedDateTime = ZonedDateTime.of(localDateTime, ZoneId.systemDefault());
+        ZonedDateTime newUTCDateTime = newZonedDateTime.withZoneSameInstant(ZoneId.of("UTC"));
+        return Timestamp.valueOf(newUTCDateTime.toLocalDateTime());
+    }
     public static ObservableList<Appointment> getAllAppointments() throws SQLException, Exception{
         ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
         String sqlStatement = "SELECT * FROM appointments";
@@ -56,22 +65,130 @@ public abstract class Utility {
             int customerID = result.getInt("Customer_ID");
             int contactID = result.getInt("Contact_ID");
             String contactName = Utility.getContactName(contactID);
+            String userName = Utility.getUserName(userID);
+            String customerName = Utility.getCustomerName(customerID);
 
-            Appointment newAppointment = new Appointment(appointmentID, title, description, start, end, customerID, contactID, location, type, userID, contactName);
+            Appointment newAppointment = new Appointment(appointmentID, title, description, start, end, customerID, contactID, location, type, userID, contactName, userName, customerName);
             allAppointments.add(newAppointment);
 
         }
         return allAppointments;
     }
+
+
+
+
+
+    /**
+     * This method is used to convert contact ID to contact name.
+     * It takes an int id  and returns a string name.
+     * @param contactID
+     * @return
+     * @throws SQLException
+     */
     public static String getContactName(int contactID) throws SQLException {
         String contactName = null;
-        String getDivision = "SELECT Contact_Name FROM contacts WHERE Contact_ID = ?";
-        ResultSet stateResult = Query.run(getDivision, contactID);
+        String sql = "SELECT Contact_Name FROM contacts WHERE Contact_ID = ?";
+        ResultSet stateResult = Query.run(sql, contactID);
         if (stateResult.next()) {
             contactName = stateResult.getString("Contact_Name");
         }
         return contactName;
     }
+    /**
+     * This method is used to convert contact name to contact ID.
+     * It takes a string name and returns an int id.
+     * @param contactName
+     * @return
+     * @throws SQLException
+     */
+    public static int getContactID(String contactName) throws SQLException {
+        int contactID = -1;
+        String sql = "SELECT Contact_ID FROM contacts WHERE Contact_Name = ?";
+        ResultSet stateResult = Query.run(sql, contactName);
+        if (stateResult.next()) {
+            contactID = stateResult.getInt("Contact_ID");
+        }
+        return contactID;
+    }
+
+
+
+
+
+    /**
+     * This method is used to convert user ID to user name.
+     * It takes an int id  and returns a string name.
+     * @param userID
+     * @return
+     * @throws SQLException
+     */
+    public static String getUserName(int userID) throws SQLException {
+        String userName = null;
+        String sql = "SELECT User_Name FROM users WHERE User_ID = ?";
+        ResultSet stateResult = Query.run(sql, userID);
+        if (stateResult.next()) {
+            userName = stateResult.getString("User_Name");
+        }
+        return userName;
+    }
+    /**
+     * This method is used to convert user name to user ID.
+     * It takes a string name and returns an int id.
+     * @param userName
+     * @return
+     * @throws SQLException
+     */
+    public static int getUserID(String userName) throws SQLException {
+        int userID = -1;
+        String sql = "SELECT User_ID FROM users WHERE User_Name = ?";
+        ResultSet stateResult = Query.run(sql, userName);
+        if (stateResult.next()) {
+            userID = stateResult.getInt("User_ID");
+        }
+        return userID;
+    }
+
+
+
+
+    /**
+     * This method is used to convert customer ID to customer name.
+     * It takes an int id  and returns a string name.
+     * @param customerID
+     * @return
+     * @throws SQLException
+     */
+    public static String getCustomerName(int customerID) throws SQLException {
+        String customerName = null;
+        String sql = "SELECT Customer_Name FROM customers WHERE Customer_ID = ?";
+        ResultSet stateResult = Query.run(sql, customerID);
+        if (stateResult.next()) {
+            customerName = stateResult.getString("Customer_Name");
+        }
+        return customerName;
+    }
+    /**
+     * This method is used to convert customer name to customer ID.
+     * It takes a string name and returns an int id.
+     * @param customerName
+     * @return
+     * @throws SQLException
+     */
+    public static int getCustomerID(String customerName) throws SQLException {
+        int customerID = -1;
+        String sql = "SELECT Customer_ID FROM customers WHERE Customer_Name = ?";
+        ResultSet stateResult = Query.run(sql, customerName);
+        if (stateResult.next()) {
+            customerID = stateResult.getInt("Customer_ID");
+        }
+        return customerID;
+    }
+
+
+
+
+
 
     public static void setErrorMessage(Text textObject,String message) {
         textObject.setText(message);
