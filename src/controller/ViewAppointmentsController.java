@@ -18,7 +18,7 @@ import utilities.Utility;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 public class ViewAppointmentsController implements Initializable {
@@ -38,9 +38,9 @@ public class ViewAppointmentsController implements Initializable {
     @FXML
     public TableColumn<Appointment, String> contactColumn;
     @FXML
-    public TableColumn<Appointment, Timestamp> startColumn;
+    public TableColumn<Appointment, LocalDateTime> startColumn;
     @FXML
-    public TableColumn<Appointment, Timestamp> endColumn;
+    public TableColumn<Appointment, LocalDateTime> endColumn;
     @FXML
     public TableColumn<Appointment, String> customerNameColumn;
     @FXML
@@ -57,8 +57,8 @@ public class ViewAppointmentsController implements Initializable {
             descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
             locationColumn.setCellValueFactory(new PropertyValueFactory<>("location"));
             typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
-            startColumn.setCellValueFactory(new PropertyValueFactory<>("start"));
-            endColumn.setCellValueFactory(new PropertyValueFactory<>("end"));
+            startColumn.setCellValueFactory(new PropertyValueFactory<>("formattedLocalStartTimeString"));
+            endColumn.setCellValueFactory(new PropertyValueFactory<>("formattedLocalEndTimeString"));
             customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
             userNameColumn.setCellValueFactory(new PropertyValueFactory<>("UserName"));
             contactColumn.setCellValueFactory(new PropertyValueFactory<>("contactName"));
@@ -67,8 +67,6 @@ public class ViewAppointmentsController implements Initializable {
             appointments.addAll(Utility.getAllAppointments());
 
             appointmentTable.setItems(appointments);
-
-
 
         } catch (Exception e) {
             e.printStackTrace();

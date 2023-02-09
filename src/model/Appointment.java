@@ -1,6 +1,8 @@
 package model;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Appointment {
 
@@ -8,14 +10,50 @@ public class Appointment {
         public String title;
         public String description;
         public String type;
-        public Timestamp start;
-        public Timestamp end;
+        public LocalDateTime utcStart;
+        public LocalDateTime utcEnd;
         public int customerID;
         public int userID;
         public String location;
         public String contactName;
         public String userName;
         public String customerName;
+        public LocalDateTime localStart;
+        public LocalDateTime localEnd;
+        public String formattedLocalStartTimeString;
+        public String formattedLocalEndTimeString;
+
+        public String getFormattedLocalStartTimeString() {
+                return formattedLocalStartTimeString;
+        }
+
+        public void setFormattedLocalStartTimeString(String formattedLocalStartTimeString) {
+                this.formattedLocalStartTimeString = formattedLocalStartTimeString;
+        }
+
+        public String getFormattedLocalEndTimeString() {
+                return formattedLocalEndTimeString;
+        }
+
+        public void setFormattedLocalEndTimeString(String formattedLocalEndTimeString) {
+                this.formattedLocalEndTimeString = formattedLocalEndTimeString;
+        }
+
+        public LocalDateTime getLocalStart() {
+                return localStart;
+        }
+
+        public void setLocalStart(LocalDateTime localStart) {
+                this.localStart = localStart;
+        }
+
+        public LocalDateTime getLocalEnd() {
+                return localEnd;
+        }
+
+        public void setLocalEnd(LocalDateTime localEnd) {
+                this.localEnd = localEnd;
+        }
 
         public String getUserName() {
                 return userName;
@@ -32,7 +70,6 @@ public class Appointment {
         public void setCustomerName(String customerName) {
                 this.customerName = customerName;
         }
-
 
         public int getUserID() {
                 return userID;
@@ -82,20 +119,20 @@ public class Appointment {
                 this.type = type;
         }
 
-        public Timestamp getStart() {
-                return start;
+        public LocalDateTime getUtcStart() {
+                return utcStart;
         }
 
-        public void setStart(Timestamp start) {
-                this.start = start;
+        public void setUtcStart(LocalDateTime utcStart) {
+                this.utcStart = utcStart;
         }
 
-        public Timestamp getEnd() {
-                return end;
+        public LocalDateTime getUtcEnd() {
+                return utcEnd;
         }
 
-        public void setEnd(Timestamp end) {
-                this.end = end;
+        public void setUtcEnd(LocalDateTime utcEnd) {
+                this.utcEnd = utcEnd;
         }
 
         public int getCustomerID() {
@@ -125,15 +162,16 @@ public class Appointment {
                 this.contactName = contactName;
         }
 
-        public Appointment(int appointmentID, String title, String description, Timestamp start,
-                           Timestamp end, int customerID, int contactID, String location, String type, int userID, String contactName, String userName, String customerName) {
+        public Appointment(int appointmentID, String title, String description, LocalDateTime utcStart,
+                           LocalDateTime utcEnd, int customerID, int contactID, String location, String type, int userID,
+                           String contactName, String userName, String customerName, LocalDateTime localStart, LocalDateTime localEnd) {
 
         this.title = title;
         this.appointmentID = appointmentID;
         this.description = description;
         this.type = type;
-        this.start = start;
-        this.end = end;
+        this.utcStart = utcStart;
+        this.utcEnd = utcEnd;
         this.customerID = customerID;
         this.contactID = contactID;
         this.location = location;
@@ -141,5 +179,13 @@ public class Appointment {
         this.contactName = contactName;
         this.userName = userName;
         this.customerName = customerName;
-    }
+        this.localStart = localStart;
+        this.localEnd = localEnd;
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm MM/dd/yyyy");
+        this.formattedLocalStartTimeString = localStart.format(formatter);
+        this.formattedLocalEndTimeString = localEnd.format(formatter);
+        System.out.println(this.formattedLocalStartTimeString);
+        System.out.println();
+        }
 }

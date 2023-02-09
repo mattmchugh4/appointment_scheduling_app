@@ -14,9 +14,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import model.Customer;
 import utilities.Utility;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
@@ -100,10 +98,10 @@ public class AddAppointmentController implements Initializable {
         int newCustomerID = Utility.getCustomerID(newCustomerName);
 
         LocalDateTime newLocalStartTime = LocalDateTime.of(newAppointmentDate, LocalTime.of(Integer.parseInt(newStartHour), Integer.parseInt(newStartMinute)));
-        Timestamp newStart = Utility.convertTimeToUTC(newLocalStartTime);
+        Timestamp newStart = Timestamp.valueOf(Utility.convertTimeToUTC(newLocalStartTime));
 
-        LocalDateTime newLocalEndTime = LocalDateTime.of(newAppointmentDate, LocalTime.of(Integer.parseInt(newStartHour), Integer.parseInt(newStartMinute)));
-        Timestamp newEnd = Utility.convertTimeToUTC(newLocalEndTime);
+        LocalDateTime newLocalEndTime = LocalDateTime.of(newAppointmentDate, LocalTime.of(Integer.parseInt(newEndHour), Integer.parseInt(newEndMinute)));
+        Timestamp newEnd = Timestamp.valueOf(Utility.convertTimeToUTC(newLocalEndTime));
 
         if (newTitle == null || newDescription == null || newLocation == null || newType == null || newCustomerName == null ||
                 newUserName == null || newContactName == null || newAppointmentDate == null || newStartHour == null ||
@@ -112,7 +110,7 @@ public class AddAppointmentController implements Initializable {
             return;
         }
 
-        if(newStart.compareTo(newEnd) >= 0) {
+        if (!newLocalEndTime.isAfter(newLocalStartTime)) {
             Utility.setErrorMessage(systemMessageText, "Appointment end time must be after start time.");
             return;
         }

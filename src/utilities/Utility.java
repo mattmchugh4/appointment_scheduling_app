@@ -44,11 +44,19 @@ public abstract class Utility {
         }
         return allCustomers;
     }
-    public static Timestamp convertTimeToUTC(LocalDateTime localDateTime) {
+    public static LocalDateTime convertTimeToUTC(LocalDateTime localDateTime) {
         ZonedDateTime newZonedDateTime = ZonedDateTime.of(localDateTime, ZoneId.systemDefault());
-        ZonedDateTime newUTCDateTime = newZonedDateTime.withZoneSameInstant(ZoneId.of("UTC"));
-        return Timestamp.valueOf(newUTCDateTime.toLocalDateTime());
+        ZonedDateTime newUTZonedCDateTime = newZonedDateTime.withZoneSameInstant(ZoneId.of("UTC"));
+        LocalDateTime newUTCTime = newUTZonedCDateTime.toLocalDateTime();
+        return newUTCTime;
     }
+    public static LocalDateTime convertTimeToLocal(LocalDateTime utcDateTime) {
+        ZonedDateTime utcZonedDateTime = ZonedDateTime.of(utcDateTime, ZoneId.of("UTC"));
+        ZonedDateTime localZonedDateTime = utcZonedDateTime.withZoneSameInstant(ZoneId.systemDefault());
+        LocalDateTime localDateTime = localZonedDateTime.toLocalDateTime();
+        return localDateTime;
+    }
+
     public static ObservableList<Appointment> getAllAppointments() throws SQLException, Exception{
         ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
         String sqlStatement = "SELECT * FROM appointments";
@@ -60,24 +68,30 @@ public abstract class Utility {
             String type = result.getString("Type");
             String location = result.getString("Location");
             int userID = result.getInt("User_ID");
-            Timestamp start = result.getTimestamp("Start");
-            Timestamp end = result.getTimestamp("End");
+            LocalDateTime utcStart = result.getTimestamp("Start").toLocalDateTime();
+            LocalDateTime utcEnd = result.getTimestamp("End").toLocalDateTime();
             int customerID = result.getInt("Customer_ID");
             int contactID = result.getInt("Contact_ID");
             String contactName = Utility.getContactName(contactID);
             String userName = Utility.getUserName(userID);
             String customerName = Utility.getCustomerName(customerID);
+            LocalDateTime localStart = Utility.convertTimeToLocal(utcStart);
+            LocalDateTime localEnd = Utility.convertTimeToLocal(utcEnd);
 
-            Appointment newAppointment = new Appointment(appointmentID, title, description, start, end, customerID, contactID, location, type, userID, contactName, userName, customerName);
+            System.out.println(result.getTimestamp("Start"));
+            System.out.println(appointmentID);
+            System.out.println(utcStart);
+            System.out.println(localStart);
+
+
+            Appointment newAppointment = new Appointment(appointmentID, title, description, utcStart, utcEnd,
+                    customerID, contactID, location, type, userID, contactName, userName, customerName, localStart, localEnd);
+
             allAppointments.add(newAppointment);
 
         }
         return allAppointments;
     }
-
-
-
-
 
     /**
      * This method is used to convert contact ID to contact name.
@@ -112,10 +126,6 @@ public abstract class Utility {
         return contactID;
     }
 
-
-
-
-
     /**
      * This method is used to convert user ID to user name.
      * It takes an int id  and returns a string name.
@@ -149,9 +159,6 @@ public abstract class Utility {
         return userID;
     }
 
-
-
-
     /**
      * This method is used to convert customer ID to customer name.
      * It takes an int id  and returns a string name.
@@ -184,11 +191,6 @@ public abstract class Utility {
         }
         return customerID;
     }
-
-
-
-
-
 
     public static void setErrorMessage(Text textObject,String message) {
         textObject.setText(message);
