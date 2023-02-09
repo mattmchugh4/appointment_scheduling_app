@@ -26,7 +26,7 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/view/LoginForm.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentForm.fxml"));
         stage.setTitle("First Screen");
         stage.setScene(new Scene(root, 600, 400));
         stage.show();
