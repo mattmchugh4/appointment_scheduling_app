@@ -43,17 +43,28 @@ public abstract class Utility {
             String title = result.getString("Title");
             String description = result.getString("Description");
             String type = result.getString("Type");
+            String location = result.getString("Location");
+            int userID = result.getInt("User_ID");
             Timestamp start = result.getTimestamp("Start");
             Timestamp end = result.getTimestamp("End");
             int customerID = result.getInt("Customer_ID");
             int contactID = result.getInt("Contact_ID");
-            System.out.println("appointmentID: " + appointmentID + " title: " + title + " description: " + description + " type: " + type + " start: " + start + " end: " + end + " customerID: " + customerID);
+            String contactName = Utility.getContactName(contactID);
 
-                    Appointment newAppointment = new Appointment(appointmentID, title, description, type, start, end, customerID, contactID);
+            Appointment newAppointment = new Appointment(appointmentID, title, description, start, end, customerID, contactID, location, type, userID, contactName);
             allAppointments.add(newAppointment);
 
         }
         return allAppointments;
+    }
+    public static String getContactName(int contactID) throws SQLException {
+        String contactName = null;
+        String getDivision = "SELECT Contact_Name FROM contacts WHERE Contact_ID = ?";
+        ResultSet stateResult = Query.run(getDivision, contactID);
+        if (stateResult.next()) {
+            contactName = stateResult.getString("Contact_Name");
+        }
+        return contactName;
     }
 
     public static void setErrorMessage(Text textObject,String message) {
