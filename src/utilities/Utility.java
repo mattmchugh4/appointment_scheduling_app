@@ -202,4 +202,35 @@ public abstract class Utility {
         parent.setRightAnchor(textObject, parent.getWidth() / 2 + textObject.getLayoutBounds().getWidth() / 2);
         textObject.setVisible(true);
     }
+
+
+
+
+    public static void test() throws SQLException {
+        String sqlStatement = "SELECT * FROM appointments";
+        ResultSet result = Query.run(sqlStatement);
+        while(result.next()) {
+
+            int appointmentID = result.getInt("Appointment_ID");
+
+
+            Timestamp utcStart = result.getTimestamp("Start");
+            Timestamp utcEnd = result.getTimestamp("End");
+
+            System.out.println(appointmentID);
+            System.out.println(utcStart);
+            System.out.println(utcEnd);
+            System.out.println();
+
+
+//            LocalDateTime utcStart = result.getTimestamp("Start").toLocalDateTime();
+//            LocalDateTime utcEnd = result.getTimestamp("End").toLocalDateTime();
+
+//            LocalDateTime localStart = Utility.convertTimeToLocal(utcStart);
+//            LocalDateTime localEnd = Utility.convertTimeToLocal(utcEnd);
+        }
+    }
+
+
+
 }

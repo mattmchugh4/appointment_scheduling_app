@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.Locale;
@@ -36,9 +37,15 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        TimeZone userTimeZone = TimeZone.getDefault();
-        ZoneId userZone = userTimeZone.toZoneId();
-        UserLocationLabel.setText(userZone.toString());
+//        TimeZone userTimeZone = TimeZone.getDefault();
+//        ZoneId userZone = userTimeZone.toZoneId();
+//        UserLocationLabel.setText(userZone.toString());
+        try {
+            Utility.test();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
 
 //        Locale userLocale = Locale.getDefault();
 //        this.resourceBundle = ResourceBundle.getBundle("translations/Translations", userLocale);
