@@ -20,6 +20,7 @@ import java.time.ZonedDateTime;
 public abstract class Utility {
         public static final ObservableList<String> HOURS = FXCollections.observableArrayList();
         public static final ObservableList<String> MINUTES = FXCollections.observableArrayList();
+        public static String userLoginName = null;
         static {
             for (int i = 1; i <= 24; i++) {
                 HOURS.add(String.valueOf(i));

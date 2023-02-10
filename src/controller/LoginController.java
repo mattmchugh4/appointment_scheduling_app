@@ -19,10 +19,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
@@ -82,12 +80,13 @@ public class LoginController implements Initializable {
         if (stateResult.next()) {
             String returnedPassword = stateResult.getString("Password");
             if (returnedPassword.equals(password)) {
+                Utility.userLoginName = username;
                 bufferedWriter.newLine();
                 String successfulAttempt = "Login attempt successful";
                 bufferedWriter.write(successfulAttempt);
                 bufferedWriter.close();
                 Stage loginPageStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-                scene = FXMLLoader.load(getClass().getResource("/view/Default.fxml"));
+                scene = FXMLLoader.load(getClass().getResource("/view/LoginMessageForm.fxml"));
                 loginPageStage.setTitle("Application Page");
                 loginPageStage.setScene(new Scene(scene));
                 loginPageStage.show();

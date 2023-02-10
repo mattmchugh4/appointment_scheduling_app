@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginMessageController">
+   <children>
+      <Button layoutX="240.0" layoutY="219.0" mnemonicParsing="false" onAction="#onClickApplication" text="View Appointments" />
+      <Text fx:id="welcomeMessage" layoutX="246.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome test">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text fx:id="dateTimeMessage" layoutX="119.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The current date and time is 2/10/2023, 10:00">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text fx:id="upcomingMessage" layoutX="74.0" layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You have no appointments scheduled within 15 minutes">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text fx:id="appointmentDetails" layoutX="77.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You have no appointments scheduled within 15 minutes" visible="false">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>
