@@ -37,15 +37,9 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-//        TimeZone userTimeZone = TimeZone.getDefault();
-//        ZoneId userZone = userTimeZone.toZoneId();
-//        UserLocationLabel.setText(userZone.toString());
-        try {
-            Utility.test();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
+        TimeZone userTimeZone = TimeZone.getDefault();
+        ZoneId userZone = userTimeZone.toZoneId();
+        UserLocationLabel.setText(userZone.toString());
 
 //        Locale userLocale = Locale.getDefault();
 //        this.resourceBundle = ResourceBundle.getBundle("translations/Translations", userLocale);

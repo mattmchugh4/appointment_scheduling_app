@@ -51,7 +51,6 @@ public class ViewAppointmentsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-
             appointmentIDColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
             titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
             descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));

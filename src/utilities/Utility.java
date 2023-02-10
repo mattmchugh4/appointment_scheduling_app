@@ -7,6 +7,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import jdk.jshell.execution.Util;
 import model.Appointment;
 import model.Customer;
 import java.sql.ResultSet;
@@ -16,6 +17,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 public abstract class Utility {
         public static final ObservableList<String> HOURS = FXCollections.observableArrayList();
@@ -68,24 +71,18 @@ public abstract class Utility {
             String type = result.getString("Type");
             String location = result.getString("Location");
             int userID = result.getInt("User_ID");
-            LocalDateTime utcStart = result.getTimestamp("Start").toLocalDateTime();
-            LocalDateTime utcEnd = result.getTimestamp("End").toLocalDateTime();
+
+            LocalDateTime localStartDateTime = result.getTimestamp("Start").toLocalDateTime();
+            LocalDateTime localEndDateTime = result.getTimestamp("End").toLocalDateTime();
+
             int customerID = result.getInt("Customer_ID");
             int contactID = result.getInt("Contact_ID");
             String contactName = Utility.getContactName(contactID);
             String userName = Utility.getUserName(userID);
             String customerName = Utility.getCustomerName(customerID);
-            LocalDateTime localStart = Utility.convertTimeToLocal(utcStart);
-            LocalDateTime localEnd = Utility.convertTimeToLocal(utcEnd);
 
-            System.out.println(result.getTimestamp("Start"));
-            System.out.println(appointmentID);
-            System.out.println(utcStart);
-            System.out.println(localStart);
-
-
-            Appointment newAppointment = new Appointment(appointmentID, title, description, utcStart, utcEnd,
-                    customerID, contactID, location, type, userID, contactName, userName, customerName, localStart, localEnd);
+            Appointment newAppointment = new Appointment(appointmentID, title, description, localStartDateTime, localEndDateTime,
+                    customerID, contactID, location, type, userID, contactName, userName, customerName);
 
             allAppointments.add(newAppointment);
 
@@ -94,12 +91,44 @@ public abstract class Utility {
     }
 
     /**
-     * This method is used to convert contact ID to contact name.
-     * It takes an int id  and returns a string name.
-     * @param contactID
-     * @return
-     * @throws SQLException
+     * Returns whether the given LocalDateTime, in UTC, falls within the hours of 8:00 a.m. to 10:00 p.m. Eastern Standard Time.
+     *
+     * @param dateTime the LocalDateTime to be checked, with a UTC ZoneId
+     * @return true if the LocalDateTime falls within the hours of 8:00 a.m. to 10:00 p.m. Eastern Standard Time, false otherwise
      */
+    public static boolean isWithinBusinessHours(LocalDateTime dateTime) {
+        ZoneId utcZone = ZoneId.of("UTC");
+        ZoneId estZone = ZoneId.of("America/New_York");
+        ZonedDateTime estDateTime = dateTime.atZone(utcZone).withZoneSameInstant(estZone);
+        int hour = estDateTime.getHour();
+        return (hour >= 8 && hour < 22);
+    }
+    public static boolean hasConflict(LocalDateTime startTime, LocalDateTime endTime, int customerID) throws SQLException {
+        boolean isConflict = false;
+        String sql = "SELECT * FROM appointments WHERE Customer_ID = ?";
+        ResultSet stateResult = Query.run(sql, customerID);
+       while (stateResult.next()) {
+           System.out.println(stateResult.getString("Start"));
+           System.out.print(stateResult.getTimestamp("Start"));
+           LocalDateTime existingStartTime = LocalDateTime.parse(stateResult.getString("Start"));
+           LocalDateTime existingEndTime = LocalDateTime.parse(stateResult.getString("End"));
+//           if (startTime.toLocalDate().equals(existingStartTime.toLocalDate()) && startTime.isBefore(existingEndTime) && endTime.isAfter(existingStartTime)) {
+           if (startTime.isBefore(existingEndTime) && endTime.isAfter(existingStartTime)) {
+           isConflict = true;
+           break;
+           }
+       }
+        return isConflict;
+    }
+
+
+        /**
+         * This method is used to convert contact ID to contact name.
+         * It takes an int id  and returns a string name.
+         * @param contactID
+         * @return
+         * @throws SQLException
+         */
     public static String getContactName(int contactID) throws SQLException {
         String contactName = null;
         String sql = "SELECT Contact_Name FROM contacts WHERE Contact_ID = ?";
@@ -202,35 +231,4 @@ public abstract class Utility {
         parent.setRightAnchor(textObject, parent.getWidth() / 2 + textObject.getLayoutBounds().getWidth() / 2);
         textObject.setVisible(true);
     }
-
-
-
-
-    public static void test() throws SQLException {
-        String sqlStatement = "SELECT * FROM appointments";
-        ResultSet result = Query.run(sqlStatement);
-        while(result.next()) {
-
-            int appointmentID = result.getInt("Appointment_ID");
-
-
-            Timestamp utcStart = result.getTimestamp("Start");
-            Timestamp utcEnd = result.getTimestamp("End");
-
-            System.out.println(appointmentID);
-            System.out.println(utcStart);
-            System.out.println(utcEnd);
-            System.out.println();
-
-
-//            LocalDateTime utcStart = result.getTimestamp("Start").toLocalDateTime();
-//            LocalDateTime utcEnd = result.getTimestamp("End").toLocalDateTime();
-
-//            LocalDateTime localStart = Utility.convertTimeToLocal(utcStart);
-//            LocalDateTime localEnd = Utility.convertTimeToLocal(utcEnd);
-        }
-    }
-
-
-
 }

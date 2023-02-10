@@ -80,7 +80,7 @@ public class AddCustomerForm implements Initializable {
         });
     }
     /**
-     * Handle the event when the save button is clicked and inserts a new customer into the database.
+     * This method handles the event when the save button is clicked and inserts a new customer into the database.
      *
      * @param actionEvent ActionEvent
      * @throws IOException Input/Output Exception
@@ -115,7 +115,7 @@ public class AddCustomerForm implements Initializable {
         newStage.show();
     }
     /**
-     * Handle the event when the cancel button is clicked. The view is closed without saving changes.
+     * This method handles the event when the cancel button is clicked. The view is closed without saving changes.
      *
      * @param actionEvent ActionEvent
      * @throws IOException Input/Output Exception

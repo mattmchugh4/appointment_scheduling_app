@@ -1,6 +1,5 @@
 package model;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -10,16 +9,14 @@ public class Appointment {
         public String title;
         public String description;
         public String type;
-        public LocalDateTime utcStart;
-        public LocalDateTime utcEnd;
+        public LocalDateTime localStartDateTime;
+        public LocalDateTime localEndDateTime;
         public int customerID;
         public int userID;
         public String location;
         public String contactName;
         public String userName;
         public String customerName;
-        public LocalDateTime localStart;
-        public LocalDateTime localEnd;
         public String formattedLocalStartTimeString;
         public String formattedLocalEndTimeString;
 
@@ -37,22 +34,6 @@ public class Appointment {
 
         public void setFormattedLocalEndTimeString(String formattedLocalEndTimeString) {
                 this.formattedLocalEndTimeString = formattedLocalEndTimeString;
-        }
-
-        public LocalDateTime getLocalStart() {
-                return localStart;
-        }
-
-        public void setLocalStart(LocalDateTime localStart) {
-                this.localStart = localStart;
-        }
-
-        public LocalDateTime getLocalEnd() {
-                return localEnd;
-        }
-
-        public void setLocalEnd(LocalDateTime localEnd) {
-                this.localEnd = localEnd;
         }
 
         public String getUserName() {
@@ -119,20 +100,20 @@ public class Appointment {
                 this.type = type;
         }
 
-        public LocalDateTime getUtcStart() {
-                return utcStart;
+        public LocalDateTime getLocalStartDateTime() {
+                return localStartDateTime;
         }
 
-        public void setUtcStart(LocalDateTime utcStart) {
-                this.utcStart = utcStart;
+        public void setLocalStartDateTime(LocalDateTime localStartDateTime) {
+                this.localStartDateTime = localStartDateTime;
         }
 
-        public LocalDateTime getUtcEnd() {
-                return utcEnd;
+        public LocalDateTime getLocalEndDateTime() {
+                return localEndDateTime;
         }
 
-        public void setUtcEnd(LocalDateTime utcEnd) {
-                this.utcEnd = utcEnd;
+        public void setLocalEndDateTime(LocalDateTime localEndDateTime) {
+                this.localEndDateTime = localEndDateTime;
         }
 
         public int getCustomerID() {
@@ -153,7 +134,6 @@ public class Appointment {
 
         public int contactID;
 
-
         public String getContactName() {
                 return contactName;
         }
@@ -162,16 +142,16 @@ public class Appointment {
                 this.contactName = contactName;
         }
 
-        public Appointment(int appointmentID, String title, String description, LocalDateTime utcStart,
-                           LocalDateTime utcEnd, int customerID, int contactID, String location, String type, int userID,
-                           String contactName, String userName, String customerName, LocalDateTime localStart, LocalDateTime localEnd) {
+        public Appointment(int appointmentID, String title, String description, LocalDateTime localStartDateTime,
+                           LocalDateTime localEndDateTime, int customerID, int contactID, String location, String type, int userID,
+                           String contactName, String userName, String customerName) {
 
         this.title = title;
         this.appointmentID = appointmentID;
         this.description = description;
         this.type = type;
-        this.utcStart = utcStart;
-        this.utcEnd = utcEnd;
+        this.localStartDateTime = localStartDateTime;
+        this.localEndDateTime = localEndDateTime;
         this.customerID = customerID;
         this.contactID = contactID;
         this.location = location;
@@ -179,13 +159,9 @@ public class Appointment {
         this.contactName = contactName;
         this.userName = userName;
         this.customerName = customerName;
-        this.localStart = localStart;
-        this.localEnd = localEnd;
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm MM/dd/yyyy");
-        this.formattedLocalStartTimeString = localStart.format(formatter);
-        this.formattedLocalEndTimeString = localEnd.format(formatter);
-        System.out.println(this.formattedLocalStartTimeString);
-        System.out.println();
+        this.formattedLocalStartTimeString = localStartDateTime.format(formatter);
+        this.formattedLocalEndTimeString = localEndDateTime.format(formatter);
         }
 }
