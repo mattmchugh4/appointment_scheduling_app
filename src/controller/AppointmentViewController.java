@@ -18,8 +18,11 @@ import utilities.Utility;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -48,6 +51,9 @@ public class AppointmentViewController implements Initializable {
     @FXML
     public TableColumn<Appointment, String> userNameColumn;
     public Text systemMessageText;
+    public RadioButton allAppointments;
+    public RadioButton weekRadio;
+    public RadioButton monthRadio;
     private Parent scene;
     private ObservableList<Appointment> appointments = FXCollections.observableArrayList();
 
@@ -65,16 +71,21 @@ public class AppointmentViewController implements Initializable {
             customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
             userNameColumn.setCellValueFactory(new PropertyValueFactory<>("UserName"));
             contactColumn.setCellValueFactory(new PropertyValueFactory<>("contactName"));
-
             appointments.addAll(Utility.getAllAppointments());
-
             appointmentTable.setItems(appointments);
+            allAppointments.setSelected(true);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * The method `onAddAppointment` opens the Add Appointment Form when the "Add" button is clicked.
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onAddAppointment(ActionEvent actionEvent) throws IOException {
         Stage newStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/AddAppointmentForm.fxml"));
@@ -83,6 +94,14 @@ public class AppointmentViewController implements Initializable {
         newStage.show();
     }
 
+    /**
+     * The method `onEditAppointment` opens the Edit Form when the "Edit" button is clicked.
+     * Before opening the form, it checks that an appointment has been selected. If an appointment is selected,
+     * it retrieves the selected appointment and passes it to the Edit Appointment Form.
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onEditAppointment(ActionEvent actionEvent) throws IOException {
 
         try {
@@ -106,6 +125,13 @@ public class AppointmentViewController implements Initializable {
         }
     }
 
+    /**
+     * The method `onDeleteAppointment` deletes the selected appointment when the "Delete" button is clicked.
+     * Before deleting the appointment, it prompts the user to confirm the deletion.
+     *
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onDeleteAppointment(ActionEvent actionEvent) throws IOException {
         try {
             Appointment selectedAppointment = appointmentTable.getSelectionModel().getSelectedItem();
@@ -126,19 +152,123 @@ public class AppointmentViewController implements Initializable {
                 Query.run(deleteStatement, appointmentID);
                 appointments.remove(selectedAppointment);
                 appointmentTable.setItems(appointments);
-                Utility.setSystemMessage(systemMessageText, "Appointment number " + appointmentID + " was deleted.");
+                Utility.setSystemMessage(systemMessageText, "Appointment ID " + appointmentID + ", Type " + appointmentType + ", was deleted.");
             } else {
-                    Utility.setSystemMessage(systemMessageText, "Appointment was not deleted.");
-                }
+                Utility.setSystemMessage(systemMessageText, "Appointment was not deleted.");
+            }
         } catch (NullPointerException | SQLException e) {
             Utility.setErrorMessage(systemMessageText, "You must select an appointment to delete.");
         }
     }
-
+    /**
+     *
+     *  The onViewCustomers method is a event handler that handles the button press event to view the customers.
+     *  @param actionEvent
+     *  @throws IOException
+     */
     public void onViewCustomers(ActionEvent actionEvent) throws IOException {
         Stage newStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/CustomerViewForm.fxml"));
         newStage.setTitle("Customers");
+        newStage.setScene(new Scene(scene));
+        newStage.show();
+    }
+
+    /**
+     * This method is called when the user clicks the "All Appointments" button. It retrieves all the appointments
+     * from the database and displays them in the appointments table.
+     * @param actionEvent
+     * @throws Exception
+     */
+    public void onSelectAllAppointments(ActionEvent actionEvent) throws Exception {
+        appointments.clear();
+        appointments.addAll(Utility.getAllAppointments());
+        appointmentTable.setItems(appointments);
+    }
+
+    /**
+     * This method is called when the user clicks the "Week View" button. It retrieves all the appointments
+     * from the database that fall within the current week and displays them in the appointments table.
+     * @param actionEvent
+     * @throws SQLException
+     */
+    public void onSelectWeek(ActionEvent actionEvent) throws SQLException {
+        appointments.clear();
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        LocalDateTime oneWeekLater = currentDateTime.plus(1, ChronoUnit.WEEKS);
+
+        String sqlStatement = "SELECT * FROM appointments WHERE Start >= ? AND End <= ?";
+        ResultSet result = Query.run(sqlStatement, Timestamp.valueOf(currentDateTime), Timestamp.valueOf(oneWeekLater));
+
+        while(result.next()) {
+            int appointmentID = result.getInt("Appointment_ID");
+            String title = result.getString("Title");
+            String description = result.getString("Description");
+            String type = result.getString("Type");
+            String location = result.getString("Location");
+            int userID = result.getInt("User_ID");
+
+            LocalDateTime localStartDateTime = result.getTimestamp("Start").toLocalDateTime();
+            LocalDateTime localEndDateTime = result.getTimestamp("End").toLocalDateTime();
+
+            int customerID = result.getInt("Customer_ID");
+            int contactID = result.getInt("Contact_ID");
+            String contactName = Utility.getContactName(contactID);
+            String userName = Utility.getUserName(userID);
+            String customerName = Utility.getCustomerName(customerID);
+
+            Appointment newAppointment = new Appointment(appointmentID, title, description, localStartDateTime, localEndDateTime,
+                    customerID, contactID, location, type, userID, contactName, userName, customerName);
+
+            appointments.add(newAppointment);
+        }
+        appointmentTable.setItems(appointments);
+    }
+
+    /**
+     * This method is called when the user clicks the "Month View" button. It retrieves all the appointments
+     * from the database that fall within the current month and displays them in the appointments table.
+     * @param actionEvent
+     * @throws SQLException
+     */
+    public void onSelectMonth(ActionEvent actionEvent) throws SQLException {
+
+        appointments.clear();
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        LocalDateTime oneWeekLater = currentDateTime.plus(1, ChronoUnit.MONTHS);
+
+        String sqlStatement = "SELECT * FROM appointments WHERE Start >= ? AND End <= ?";
+        ResultSet result = Query.run(sqlStatement, Timestamp.valueOf(currentDateTime), Timestamp.valueOf(oneWeekLater));
+
+        while(result.next()) {
+            int appointmentID = result.getInt("Appointment_ID");
+            String title = result.getString("Title");
+            String description = result.getString("Description");
+            String type = result.getString("Type");
+            String location = result.getString("Location");
+            int userID = result.getInt("User_ID");
+
+            LocalDateTime localStartDateTime = result.getTimestamp("Start").toLocalDateTime();
+            LocalDateTime localEndDateTime = result.getTimestamp("End").toLocalDateTime();
+
+            int customerID = result.getInt("Customer_ID");
+            int contactID = result.getInt("Contact_ID");
+            String contactName = Utility.getContactName(contactID);
+            String userName = Utility.getUserName(userID);
+            String customerName = Utility.getCustomerName(customerID);
+
+            Appointment newAppointment = new Appointment(appointmentID, title, description, localStartDateTime, localEndDateTime,
+                    customerID, contactID, location, type, userID, contactName, userName, customerName);
+
+            appointments.add(newAppointment);
+        }
+        appointmentTable.setItems(appointments);
+    }
+
+    public void onClickReport(ActionEvent actionEvent) throws IOException {
+        Stage newStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/view/AddAppointmentForm.fxml"));
+        newStage.setTitle("Add Appointment");
         newStage.setScene(new Scene(scene));
         newStage.show();
     }

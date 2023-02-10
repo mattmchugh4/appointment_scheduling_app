@@ -1,5 +1,6 @@
 package controller;
 
+import dao.Query;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,20 +10,20 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.scene.control.cell.PropertyValueFactory;
+import model.Appointment;
 import model.Customer;
 import utilities.Utility;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class CustomerViewController implements Initializable {
@@ -50,6 +51,7 @@ public class CustomerViewController implements Initializable {
     public Text systemMessageText;
 
     private Parent scene;
+    private ObservableList<Customer> customers = FXCollections.observableArrayList();
 
     /**
      *
@@ -67,7 +69,6 @@ public class CustomerViewController implements Initializable {
             customerPhoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
             customerDivisionColumn.setCellValueFactory(new PropertyValueFactory<>("division"));
 
-            ObservableList<Customer> customers = FXCollections.observableArrayList();
             customers.addAll(Utility.getAllCustomers());
 
             customerTable.setItems(customers);
@@ -77,7 +78,42 @@ public class CustomerViewController implements Initializable {
         }
     }
 
+    /**
+     * The method `onDeleteCustomer` deletes the selected appointment when the "Delete" button is clicked.
+     * Before deleting the appointment, it prompts the user to confirm the deletion.
+     *
+     * @param actionEvent
+     */
     public void onDeleteCustomer(ActionEvent actionEvent) {
+        try {
+            Customer selectedCustomer = customerTable.getSelectionModel().getSelectedItem();
+            String customerID = Integer.toString(selectedCustomer.getId());
+
+            Alert confirmDelete = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmDelete.setTitle("Confirm Delete");
+            confirmDelete.setContentText("Customer ID: " + customerID + "\nAre you sure you want to delete this customer?" +
+                    "\nThis will also delete all appointments with this customer.");
+
+            ButtonType confirmDeleteButton = new ButtonType("Delete");
+            ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+            confirmDelete.getButtonTypes().setAll(confirmDeleteButton, cancelButton);
+            Optional<ButtonType> result = confirmDelete.showAndWait();
+
+            if (result.get() == confirmDeleteButton){
+
+                String findAppointments = "DELETE FROM appointments WHERE Customer_ID = ?";
+                Query.run(findAppointments, customerID);
+                String deleteStatement = "DELETE FROM customers WHERE Customer_ID = ?";
+                Query.run(deleteStatement, customerID);
+                customers.remove(selectedCustomer);
+                customerTable.setItems(customers);
+                Utility.setSystemMessage(systemMessageText, "Customer ID " + customerID + ", was deleted.");
+            } else {
+                Utility.setSystemMessage(systemMessageText, "Customer was not deleted.");
+            }
+        } catch (NullPointerException | SQLException e) {
+            Utility.setErrorMessage(systemMessageText, "You must select a customer to delete.");
+        }
     }
 
     public void onEditCustomer(ActionEvent actionEvent) throws IOException {
