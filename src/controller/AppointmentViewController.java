@@ -1,5 +1,6 @@
 package controller;
 
+import dao.Query;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -8,9 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -21,6 +20,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AppointmentViewController implements Initializable {
@@ -49,6 +49,7 @@ public class AppointmentViewController implements Initializable {
     public TableColumn<Appointment, String> userNameColumn;
     public Text systemMessageText;
     private Parent scene;
+    private ObservableList<Appointment> appointments = FXCollections.observableArrayList();
 
 
     @Override
@@ -65,7 +66,6 @@ public class AppointmentViewController implements Initializable {
             userNameColumn.setCellValueFactory(new PropertyValueFactory<>("UserName"));
             contactColumn.setCellValueFactory(new PropertyValueFactory<>("contactName"));
 
-            ObservableList<Appointment> appointments = FXCollections.observableArrayList();
             appointments.addAll(Utility.getAllAppointments());
 
             appointmentTable.setItems(appointments);
@@ -76,6 +76,14 @@ public class AppointmentViewController implements Initializable {
     }
 
     public void onAddAppointment(ActionEvent actionEvent) throws IOException {
+        Stage newStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/view/AddAppointmentForm.fxml"));
+        newStage.setTitle("Add Appointment");
+        newStage.setScene(new Scene(scene));
+        newStage.show();
+    }
+
+    public void onEditAppointment(ActionEvent actionEvent) throws IOException {
 
         try {
             Appointment selectedAppointment = appointmentTable.getSelectionModel().getSelectedItem();
@@ -89,32 +97,42 @@ public class AppointmentViewController implements Initializable {
             EditAppointmentController editAppointmentController = editAppointmentLoader.getController();
             editAppointmentController.getAppointment(selectedAppointment);
 
-            newStage.setTitle("Edit Customer");
+            newStage.setTitle("Edit Appointment");
             newStage.setScene(new Scene(scene));
             newStage.show();
 
         } catch (NullPointerException | SQLException e) {
-            Utility.setErrorMessage(systemMessageText, "You must select a customer to edit.");
+            Utility.setErrorMessage(systemMessageText, "You must select an appointment to edit.");
         }
-
-
-
-        Stage newStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/view/AddAppointmentForm.fxml"));
-        newStage.setTitle("Add Appointment");
-        newStage.setScene(new Scene(scene));
-        newStage.show();
     }
 
-    public void onEditAppointment(ActionEvent actionEvent) throws IOException {
-        Stage newStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/view/EditAppointmentForm.fxml"));
-        newStage.setTitle("Edit Appointment");
-        newStage.setScene(new Scene(scene));
-        newStage.show();
-    }
+    public void onDeleteAppointment(ActionEvent actionEvent) throws IOException {
+        try {
+            Appointment selectedAppointment = appointmentTable.getSelectionModel().getSelectedItem();
+            String appointmentID = Integer.toString(selectedAppointment.getAppointmentID());
+            String appointmentType = selectedAppointment.getType();
 
-    public void onDeleteAppointment(ActionEvent actionEvent) {
+            Alert confirmDelete = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmDelete.setTitle("Confirm Delete");
+            confirmDelete.setContentText("Appointment ID: " + appointmentID + " | Appointment Type: " + appointmentType + "\nAre you sure you want to delete this appointment?");
+
+            ButtonType confirmDeleteButton = new ButtonType("Delete");
+            ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+            confirmDelete.getButtonTypes().setAll(confirmDeleteButton, cancelButton);
+            Optional<ButtonType> result = confirmDelete.showAndWait();
+
+            if (result.get() == confirmDeleteButton){
+                String deleteStatement = "DELETE FROM appointments WHERE Appointment_ID = ?";
+                Query.run(deleteStatement, appointmentID);
+                appointments.remove(selectedAppointment);
+                appointmentTable.setItems(appointments);
+                Utility.setSystemMessage(systemMessageText, "Appointment number " + appointmentID + " was deleted.");
+            } else {
+                    Utility.setSystemMessage(systemMessageText, "Appointment was not deleted.");
+                }
+        } catch (NullPointerException | SQLException e) {
+            Utility.setErrorMessage(systemMessageText, "You must select an appointment to delete.");
+        }
     }
 
     public void onViewCustomers(ActionEvent actionEvent) throws IOException {

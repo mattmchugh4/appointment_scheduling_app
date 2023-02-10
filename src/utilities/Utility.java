@@ -6,19 +6,16 @@ import javafx.collections.ObservableList;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import jdk.jshell.execution.Util;
 import model.Appointment;
 import model.Customer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.Calendar;
-import java.util.TimeZone;
 
 public abstract class Utility {
         public static final ObservableList<String> HOURS = FXCollections.observableArrayList();
@@ -103,18 +100,19 @@ public abstract class Utility {
         int hour = estDateTime.getHour();
         return (hour >= 8 && hour < 22);
     }
-    public static boolean hasConflict(LocalDateTime startTime, LocalDateTime endTime, int customerID) throws SQLException {
+    public static boolean hasConflict(LocalDateTime startTime, LocalDateTime endTime, int customerID, int appointmentID) throws SQLException {
         boolean isConflict = false;
         String sql = "SELECT * FROM appointments WHERE Customer_ID = ?";
         ResultSet stateResult = Query.run(sql, customerID);
        while (stateResult.next()) {
+           int existingAppointmentID = stateResult.getInt("Appointment_ID");
            Timestamp existingStartTimestamp = stateResult.getTimestamp("Start");
            Timestamp existingEndTimestamp = stateResult.getTimestamp("End");
 
            LocalDateTime existingStartTime = existingStartTimestamp.toLocalDateTime();
            LocalDateTime existingEndTime = existingEndTimestamp.toLocalDateTime();
 
-           if (startTime.toLocalDate().equals(existingStartTime.toLocalDate())
+           if (existingAppointmentID != appointmentID && startTime.toLocalDate().equals(existingStartTime.toLocalDate())
                    && (startTime.isBefore(existingEndTime) && endTime.isAfter(existingStartTime))) {
                isConflict = true;
                break;
@@ -223,10 +221,21 @@ public abstract class Utility {
         return customerID;
     }
 
+    public static void setSystemMessage(Text textObject, String message) {
+        textObject.setText(message);
+        textObject.setFill(Color.GREEN);
+        textObject.setFont(Font.font("System", FontWeight.BOLD, 16));
+
+        AnchorPane parent = (AnchorPane) textObject.getParent();
+        parent.setLeftAnchor(textObject, parent.getWidth() / 2 - textObject.getLayoutBounds().getWidth() / 2);
+        parent.setRightAnchor(textObject, parent.getWidth() / 2 + textObject.getLayoutBounds().getWidth() / 2);
+        textObject.setVisible(true);
+    }
+
     public static void setErrorMessage(Text textObject,String message) {
         textObject.setText(message);
         textObject.setFill(Color.RED);
-        textObject.setFont(new Font(16));
+        textObject.setFont(Font.font("System", FontWeight.BOLD, 16));
 
         AnchorPane parent = (AnchorPane) textObject.getParent();
         parent.setLeftAnchor(textObject, parent.getWidth() / 2 - textObject.getLayoutBounds().getWidth() / 2);

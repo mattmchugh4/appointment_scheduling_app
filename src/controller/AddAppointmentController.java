@@ -125,6 +125,7 @@ public class AddAppointmentController implements Initializable {
         int newContactID = Utility.getContactID(newContactName);
         int newUserID = Utility.getUserID(newUserName);
         int newCustomerID = Utility.getCustomerID(newCustomerName);
+        int newAppointmentID = -1;
 
         LocalDateTime newLocalStartTime = LocalDateTime.of(newAppointmentDate, LocalTime.of(Integer.parseInt(newStartHour), Integer.parseInt(newStartMinute)));
         Timestamp newStart = Timestamp.valueOf(newLocalStartTime);
@@ -142,7 +143,7 @@ public class AddAppointmentController implements Initializable {
             Utility.setErrorMessage(systemMessageText, "Appointment time must be within 8:00 a.m. to 10:00 p.m. EST.");
             return;
         }
-        if(Utility.hasConflict(newLocalStartTime, newLocalEndTime, newCustomerID)) {
+        if(Utility.hasConflict(newLocalStartTime, newLocalEndTime, newCustomerID, newAppointmentID)) {
             Utility.setErrorMessage(systemMessageText, "Appointment can not conflict with an existing appointment with a customer.");
             return;
         }

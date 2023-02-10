@@ -138,3 +138,24 @@ Login attempt successful
 -----------------------------------------------------------------------------------------------------------
 Username: test attempted to log in at Thu Feb 09 22:18:03 MST 2023
 Login attempt successful
+-----------------------------------------------------------------------------------------------------------
+Username: test attempted to log in at Thu Feb 09 22:21:34 MST 2023
+Login attempt successful
+-----------------------------------------------------------------------------------------------------------
+Username: test attempted to log in at Thu Feb 09 22:22:33 MST 2023
+Login attempt successful
+-----------------------------------------------------------------------------------------------------------
+Username: test attempted to log in at Thu Feb 09 22:24:20 MST 2023
+Login attempt successful
+-----------------------------------------------------------------------------------------------------------
+Username: test attempted to log in at Thu Feb 09 22:25:10 MST 2023
+Login attempt successful
+-----------------------------------------------------------------------------------------------------------
+Username: test attempted to log in at Thu Feb 09 22:29:00 MST 2023
+Login attempt successful
+-----------------------------------------------------------------------------------------------------------
+Username: test attempted to log in at Thu Feb 09 22:33:31 MST 2023
+Login attempt successful
+-----------------------------------------------------------------------------------------------------------
+Username: test attempted to log in at Thu Feb 09 22:50:38 MST 2023
+Login attempt successful

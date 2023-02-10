@@ -90,7 +90,7 @@ public class CustomerViewController implements Initializable {
             editCustomerLoader.setLocation(getClass().getResource("/view/EditCustomerForm.fxml"));
             editCustomerLoader.load();
             scene = editCustomerLoader.getRoot();
-            EditCustomerForm editCustomerController = editCustomerLoader.getController();
+            EditCustomerController editCustomerController = editCustomerLoader.getController();
             editCustomerController.getCustomer(selectedCustomer);
 
             newStage.setTitle("Edit Customer");

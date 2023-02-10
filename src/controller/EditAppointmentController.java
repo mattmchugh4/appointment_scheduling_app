@@ -90,7 +90,7 @@ public class EditAppointmentController implements Initializable {
                 allUsers.add(userName);
             }
             userBox.setItems(allUsers);
-            userBox.setValue("test");
+//            userBox.setValue("test");
 
 
         } catch (SQLException e) {
@@ -113,10 +113,10 @@ public class EditAppointmentController implements Initializable {
         LocalDateTime appointmentStartDateTime = appointmentToModify.getLocalStartDateTime();
         LocalDateTime appointmentEndDateTime = appointmentToModify.getLocalEndDateTime();
         appointmentDate.setValue(appointmentStartDateTime.toLocalDate());
-        startHour.setValue(appointmentStartDateTime.getHour());
-        startMinute.setValue(appointmentStartDateTime.getMinute());
-        endHour.setValue(appointmentEndDateTime.getHour());
-        endMinute.setValue(appointmentEndDateTime.getMinute());
+        startHour.setValue(Integer.toString(appointmentStartDateTime.getHour()));
+        startMinute.setValue(Integer.toString(appointmentStartDateTime.getMinute()));
+        endHour.setValue(Integer.toString(appointmentEndDateTime.getHour()));
+        endMinute.setValue(Integer.toString(appointmentEndDateTime.getMinute()));
 
     }
 
@@ -140,6 +140,7 @@ public class EditAppointmentController implements Initializable {
         String newStartMinute = (String) startMinute.getValue();
         String newEndHour = (String) endHour.getValue();
         String newEndMinute = (String) endMinute.getValue();
+        int appointmentID =  Integer.parseInt(appointmentIDInput.getText());
 
         if (newTitle == null || newDescription == null || newLocation == null || newType == null || newCustomerName == null ||
                 newUserName == null || newContactName == null || newAppointmentDate == null || newStartHour == null ||
@@ -167,13 +168,13 @@ public class EditAppointmentController implements Initializable {
             Utility.setErrorMessage(systemMessageText, "Appointment time must be within 8:00 a.m. to 10:00 p.m. EST.");
             return;
         }
-        if(Utility.hasConflict(newLocalStartTime, newLocalEndTime, newCustomerID)) {
+        if(Utility.hasConflict(newLocalStartTime, newLocalEndTime, newCustomerID, appointmentID)) {
             Utility.setErrorMessage(systemMessageText, "Appointment can not conflict with an existing appointment with a customer.");
             return;
         }
-
-        String insertStatement = "INSERT INTO appointments(Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        Query.run(insertStatement, newTitle, newDescription, newLocation, newType, newStart, newEnd, newCustomerID, newContactID, newUserID);
+        String updateStatement = "UPDATE appointments SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, " +
+                "End = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? WHERE Appointment_ID = ?";
+        Query.run(updateStatement,newTitle, newDescription, newLocation, newType, newStart, newEnd, newCustomerID, newUserID, newContactID, appointmentID);
 
         Stage newStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/ViewAppointmentsForm.fxml"));
