@@ -35,7 +35,7 @@
          </buttons>
       </ButtonBar>
       <Text fx:id="systemMessageText" fill="#ee1111" layoutX="394.0" layoutY="575.0" strokeType="OUTSIDE" strokeWidth="0.0" text="System Message" visible="false" />
-      <Text layoutX="337.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Appointments">
+      <Text layoutX="342.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Appointments">
          <font>
             <Font size="32.0" />
          </font>

@@ -68,7 +68,6 @@ public class AddAppointmentController implements Initializable {
                 allContacts.add(contactName);
             }
             contactBox.setItems(allContacts);
-//            contactBox.setValue("Li Lee");
 
             ObservableList<String> allCustomerNames = FXCollections.observableArrayList();
             String customerStatement = "SELECT Customer_Name FROM customers";
@@ -78,7 +77,6 @@ public class AddAppointmentController implements Initializable {
                 allCustomerNames.add(customerName);
             }
             customerBox.setItems(allCustomerNames);
-//            customerBox.setValue("blah");
 
             ObservableList<String> allUsers = FXCollections.observableArrayList();
             String userStatement = "SELECT User_Name FROM users";

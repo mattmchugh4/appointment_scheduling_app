@@ -23,10 +23,12 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Set;
 
-public class AppointmentViewController implements Initializable {
+public class ReportsController implements Initializable {
 
     @FXML
     public TableView<Appointment> appointmentTable;
@@ -54,6 +56,12 @@ public class AppointmentViewController implements Initializable {
     public RadioButton allAppointments;
     public RadioButton weekRadio;
     public RadioButton monthRadio;
+    public Text countryAnswer;
+    public ComboBox countryBox;
+    public Text monthTypeAnswer;
+    public ComboBox typeBox;
+    public ComboBox monthBox;
+    public ComboBox contactBox;
     private Parent scene;
     private ObservableList<Appointment> appointments = FXCollections.observableArrayList();
 
@@ -61,6 +69,35 @@ public class AppointmentViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
+            ObservableList<String> countries = FXCollections.observableArrayList("U.S.", "UK", "Canada");
+            countryBox.setItems(countries);
+
+            ObservableList<String> months = FXCollections.observableArrayList("January", "February", "March", "April",
+                    "May", "June", "July", "August", "September", "October", "November", "December");
+            monthBox.setItems(months);
+
+            ObservableList<String> allContacts = FXCollections.observableArrayList();
+            String contactStatement = "SELECT Contact_Name FROM contacts";
+            ResultSet contactResult = Query.run(contactStatement);
+            while (contactResult.next()) {
+                String contactName = contactResult.getString("Contact_Name");
+                allContacts.add(contactName);
+            }
+            contactBox.setItems(allContacts);
+
+            ObservableList<String> allTypes = FXCollections.observableArrayList();
+            Set<String> uniqueTypes = new HashSet<>();
+
+            String typeStatement = "SELECT Type FROM Appointments";
+            ResultSet typeResult = Query.run(typeStatement);
+            while (typeResult.next()) {
+                String typeString = typeResult.getString("Type");
+                System.out.println(typeString);
+                uniqueTypes.add(typeString);
+            }
+            typeBox.setItems(FXCollections.observableArrayList(uniqueTypes));
+
+
             appointmentIDColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentID"));
             titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
             descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -71,28 +108,12 @@ public class AppointmentViewController implements Initializable {
             customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("customerName"));
             userNameColumn.setCellValueFactory(new PropertyValueFactory<>("UserName"));
             contactColumn.setCellValueFactory(new PropertyValueFactory<>("contactName"));
-            appointments.addAll(Utility.getAllAppointments());
-            appointmentTable.setItems(appointments);
-            allAppointments.setSelected(true);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    /**
-     * The method `onAddAppointment` opens the Add Appointment Form when the "Add" button is clicked.
-     *
-     * @param actionEvent
-     * @throws IOException
-     */
-    public void onAddAppointment(ActionEvent actionEvent) throws IOException {
-        Stage newStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/view/AddAppointmentForm.fxml"));
-        newStage.setTitle("Add Appointment");
-        newStage.setScene(new Scene(scene));
-        newStage.show();
-    }
 
     /**
      * The method `onEditAppointment` opens the Edit Form when the "Edit" button is clicked.
@@ -265,11 +286,75 @@ public class AppointmentViewController implements Initializable {
         appointmentTable.setItems(appointments);
     }
 
-    public void onClickReport(ActionEvent actionEvent) throws IOException {
+    public void onContactChange(ActionEvent actionEvent) throws SQLException {
+        appointments.clear();
+        String selectedContactName = (String) contactBox.getValue();
+        int selectedContactID = Utility.getContactID(selectedContactName);
+
+        String sqlStatement = "SELECT * FROM appointments WHERE Contact_ID = ?";
+        ResultSet result = Query.run(sqlStatement, selectedContactID);
+
+        while(result.next()) {
+            int appointmentID = result.getInt("Appointment_ID");
+            String title = result.getString("Title");
+            String description = result.getString("Description");
+            String type = result.getString("Type");
+            String location = result.getString("Location");
+            int userID = result.getInt("User_ID");
+
+            LocalDateTime localStartDateTime = result.getTimestamp("Start").toLocalDateTime();
+            LocalDateTime localEndDateTime = result.getTimestamp("End").toLocalDateTime();
+
+            int customerID = result.getInt("Customer_ID");
+            int contactID = result.getInt("Contact_ID");
+            String contactName = Utility.getContactName(contactID);
+            String userName = Utility.getUserName(userID);
+            String customerName = Utility.getCustomerName(customerID);
+
+            Appointment newAppointment = new Appointment(appointmentID, title, description, localStartDateTime, localEndDateTime,
+                    customerID, contactID, location, type, userID, contactName, userName, customerName);
+
+            appointments.add(newAppointment);
+        }
+        appointmentTable.setItems(appointments);
+    }
+
+    public void monthTypeAction(ActionEvent actionEvent) {
+
+    }
+
+    public void onViewAppointments(ActionEvent actionEvent) throws IOException {
         Stage newStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/view/ReportsForm.fxml"));
-        newStage.setTitle("Reports");
+        scene = FXMLLoader.load(getClass().getResource("/view/ViewAppointmentsForm.fxml"));
+        newStage.setTitle("Appointments");
         newStage.setScene(new Scene(scene));
         newStage.show();
+    }
+
+    public void onCountryChange(ActionEvent actionEvent) throws SQLException {
+        String countryName = (String) countryBox.getValue();
+        int count = 0;
+        int countryId = -1;
+        if (countryName.equals("U.S.")) {
+            countryId = 1;
+        } else if (countryName.equals("UK")) {
+            countryId = 2;
+        } else if (countryName.equals("Canada")) {
+            countryId = 3;
+        };
+        String sqlStatement = "SELECT * FROM customers";
+        ResultSet result = Query.run(sqlStatement);
+        while(result.next()) {
+            int divisionID = result.getInt("Division_ID");
+            String countryStatement = "SELECT Country_ID FROM first_level_divisions WHERE Division_ID = ?";
+            ResultSet countryResult = Query.run(countryStatement, divisionID);
+            if(countryResult.next()) {
+                if(countryResult.getInt("Country_ID") == countryId){
+                    count += 1;
+                }
+            }
+        }
+        countryAnswer.setText(Integer.toString(count));
+        countryAnswer.setVisible(true);
     }
 }
