@@ -108,14 +108,16 @@ public abstract class Utility {
         String sql = "SELECT * FROM appointments WHERE Customer_ID = ?";
         ResultSet stateResult = Query.run(sql, customerID);
        while (stateResult.next()) {
-           System.out.println(stateResult.getString("Start"));
-           System.out.print(stateResult.getTimestamp("Start"));
-           LocalDateTime existingStartTime = LocalDateTime.parse(stateResult.getString("Start"));
-           LocalDateTime existingEndTime = LocalDateTime.parse(stateResult.getString("End"));
-//           if (startTime.toLocalDate().equals(existingStartTime.toLocalDate()) && startTime.isBefore(existingEndTime) && endTime.isAfter(existingStartTime)) {
-           if (startTime.isBefore(existingEndTime) && endTime.isAfter(existingStartTime)) {
-           isConflict = true;
-           break;
+           Timestamp existingStartTimestamp = stateResult.getTimestamp("Start");
+           Timestamp existingEndTimestamp = stateResult.getTimestamp("End");
+
+           LocalDateTime existingStartTime = existingStartTimestamp.toLocalDateTime();
+           LocalDateTime existingEndTime = existingEndTimestamp.toLocalDateTime();
+
+           if (startTime.toLocalDate().equals(existingStartTime.toLocalDate())
+                   && (startTime.isBefore(existingEndTime) && endTime.isAfter(existingStartTime))) {
+               isConflict = true;
+               break;
            }
        }
         return isConflict;

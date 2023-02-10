@@ -153,7 +153,7 @@ public class EditCustomerForm implements Initializable {
         Query.run(updateStatement,newName, newAddress, newZip, newPhone, newDivision, customerID);
 
         Stage newStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/view/LoginPageForm.fxml"));
+        scene = FXMLLoader.load(getClass().getResource("/view/CustomerViewForm.fxml"));
         newStage.setTitle("Customer Page");
         newStage.setScene(new Scene(scene));
         newStage.show();
@@ -166,7 +166,7 @@ public class EditCustomerForm implements Initializable {
      */
     public void onCancelButton(ActionEvent actionEvent) throws IOException {
         Stage newStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/view/LoginPageForm.fxml"));
+        scene = FXMLLoader.load(getClass().getResource("/view/CustomerViewForm.fxml"));
         newStage.setTitle("Customer Page");
         newStage.setScene(new Scene(scene));
         newStage.show();

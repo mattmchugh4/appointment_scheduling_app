@@ -29,7 +29,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class AddCustomerForm implements Initializable {
+public class AddCustomerController implements Initializable {
     public TextField nameInput;
     public ComboBox countryBox;
     public TextField addressInput;
@@ -109,7 +109,7 @@ public class AddCustomerForm implements Initializable {
         Query.run(insertStatement, newName, newAddress, newZip, newPhone, newDivision);
 
         Stage newStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/view/LoginPageForm.fxml"));
+        scene = FXMLLoader.load(getClass().getResource("/view/CustomerViewForm.fxml"));
         newStage.setTitle("Customer Page");
         newStage.setScene(new Scene(scene));
         newStage.show();
@@ -122,7 +122,7 @@ public class AddCustomerForm implements Initializable {
      */
     public void onCancelButton(ActionEvent actionEvent) throws IOException {
         Stage newStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/view/LoginPageForm.fxml"));
+        scene = FXMLLoader.load(getClass().getResource("/view/CustomerViewForm.fxml"));
         newStage.setTitle("Customer Page");
         newStage.setScene(new Scene(scene));
         newStage.show();

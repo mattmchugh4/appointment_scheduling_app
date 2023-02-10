@@ -25,7 +25,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class LoginPageController implements Initializable {
+public class CustomerViewController implements Initializable {
 
     @FXML
     public TableColumn<Customer, Integer> customerIDColumn;
@@ -110,6 +110,11 @@ public class LoginPageController implements Initializable {
         newStage.show();
     }
 
-    public void onAddAppointment(ActionEvent actionEvent) {
+    public void onViewAppointment(ActionEvent actionEvent) throws IOException {
+        Stage newStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/view/ViewAppointmentsForm.fxml"));
+        newStage.setTitle("Appointments");
+        newStage.setScene(new Scene(scene));
+        newStage.show();
     }
 }

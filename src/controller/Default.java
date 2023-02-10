@@ -14,7 +14,7 @@ public class Default {
 
     public void onClickCustomer(ActionEvent actionEvent) throws IOException {
         Stage loginPageStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/view/LoginPageForm.fxml"));
+        scene = FXMLLoader.load(getClass().getResource("/view/CustomerViewForm.fxml"));
         loginPageStage.setTitle("Application Page");
         loginPageStage.setScene(new Scene(scene));
         loginPageStage.show();

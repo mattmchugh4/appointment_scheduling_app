@@ -12,7 +12,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EditAppointmentController">
     <children>
-        <TextField disable="true" editable="false" layoutX="123.0" layoutY="71.0" text="Auto-generated" />
+        <TextField fx:id="appointmentIDInput" disable="true" editable="false" layoutX="123.0" layoutY="71.0" text="Auto-generated" />
         <TextField fx:id="titleInput" layoutX="123.0" layoutY="105.0" />
         <TextField fx:id="descriptionInput" layoutX="123.0" layoutY="140.0" />
         <Label layoutX="26.0" layoutY="76.0" text="Appointment ID:" />

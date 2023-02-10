@@ -68,7 +68,7 @@ public class AddAppointmentController implements Initializable {
                 allContacts.add(contactName);
             }
             contactBox.setItems(allContacts);
-            contactBox.setValue("Li Lee");
+//            contactBox.setValue("Li Lee");
 
             ObservableList<String> allCustomerNames = FXCollections.observableArrayList();
             String customerStatement = "SELECT Customer_Name FROM customers";
@@ -78,7 +78,7 @@ public class AddAppointmentController implements Initializable {
                 allCustomerNames.add(customerName);
             }
             customerBox.setItems(allCustomerNames);
-            customerBox.setValue("blah");
+//            customerBox.setValue("blah");
 
             ObservableList<String> allUsers = FXCollections.observableArrayList();
             String userStatement = "SELECT User_Name FROM users";
@@ -142,7 +142,10 @@ public class AddAppointmentController implements Initializable {
             Utility.setErrorMessage(systemMessageText, "Appointment time must be within 8:00 a.m. to 10:00 p.m. EST.");
             return;
         }
-        Utility.hasConflict(newLocalStartTime, newLocalEndTime, newCustomerID);
+        if(Utility.hasConflict(newLocalStartTime, newLocalEndTime, newCustomerID)) {
+            Utility.setErrorMessage(systemMessageText, "Appointment can not conflict with an existing appointment with a customer.");
+            return;
+        }
 
         String insertStatement = "INSERT INTO appointments(Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         Query.run(insertStatement, newTitle, newDescription, newLocation, newType, newStart, newEnd, newCustomerID, newContactID, newUserID);

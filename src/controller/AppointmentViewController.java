@@ -12,16 +12,18 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Appointment;
 import utilities.Utility;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
-public class ViewAppointmentsController implements Initializable {
+public class AppointmentViewController implements Initializable {
 
     @FXML
     public TableView<Appointment> appointmentTable;
@@ -45,6 +47,7 @@ public class ViewAppointmentsController implements Initializable {
     public TableColumn<Appointment, String> customerNameColumn;
     @FXML
     public TableColumn<Appointment, String> userNameColumn;
+    public Text systemMessageText;
     private Parent scene;
 
 
@@ -73,9 +76,51 @@ public class ViewAppointmentsController implements Initializable {
     }
 
     public void onAddAppointment(ActionEvent actionEvent) throws IOException {
+
+        try {
+            Appointment selectedAppointment = appointmentTable.getSelectionModel().getSelectedItem();
+
+            Stage newStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+
+            FXMLLoader editAppointmentLoader = new FXMLLoader();
+            editAppointmentLoader.setLocation(getClass().getResource("/view/EditAppointmentForm.fxml"));
+            editAppointmentLoader.load();
+            scene = editAppointmentLoader.getRoot();
+            EditAppointmentController editAppointmentController = editAppointmentLoader.getController();
+            editAppointmentController.getAppointment(selectedAppointment);
+
+            newStage.setTitle("Edit Customer");
+            newStage.setScene(new Scene(scene));
+            newStage.show();
+
+        } catch (NullPointerException | SQLException e) {
+            Utility.setErrorMessage(systemMessageText, "You must select a customer to edit.");
+        }
+
+
+
         Stage newStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/AddAppointmentForm.fxml"));
         newStage.setTitle("Add Appointment");
+        newStage.setScene(new Scene(scene));
+        newStage.show();
+    }
+
+    public void onEditAppointment(ActionEvent actionEvent) throws IOException {
+        Stage newStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/view/EditAppointmentForm.fxml"));
+        newStage.setTitle("Edit Appointment");
+        newStage.setScene(new Scene(scene));
+        newStage.show();
+    }
+
+    public void onDeleteAppointment(ActionEvent actionEvent) {
+    }
+
+    public void onViewCustomers(ActionEvent actionEvent) throws IOException {
+        Stage newStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/view/CustomerViewForm.fxml"));
+        newStage.setTitle("Customers");
         newStage.setScene(new Scene(scene));
         newStage.show();
     }

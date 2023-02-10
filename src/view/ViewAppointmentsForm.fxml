@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ViewAppointmentsController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AppointmentViewController">
    <children>
       <TableView fx:id="appointmentTable" layoutX="32.0" layoutY="50.0" prefHeight="321.0" prefWidth="811.0">
         <columns>
@@ -21,6 +23,14 @@
             <TableColumn fx:id="userNameColumn" prefWidth="61.0" text="User" />
         </columns>
       </TableView>
-      <Button layoutX="398.0" layoutY="411.0" mnemonicParsing="false" onAction="#onAddAppointment" text="Add Appointment" />
+      <ButtonBar layoutX="160.0" layoutY="391.0" prefHeight="40.0" prefWidth="555.0">
+         <buttons>
+            <Button mnemonicParsing="false" onAction="#onAddAppointment" text="Add Appointment" />
+            <Button mnemonicParsing="false" onAction="#onEditAppointment" text="Edit Appointment" />
+            <Button mnemonicParsing="false" onAction="#onDeleteAppointment" prefHeight="25.0" text="Delete Appointment" />
+            <Button mnemonicParsing="false" onAction="#onViewCustomers" prefHeight="25.0" prefWidth="123.0" text="View Customers" />
+         </buttons>
+      </ButtonBar>
+      <Text fx:id="systemMessageText" fill="#ee1111" layoutX="394.0" layoutY="575.0" strokeType="OUTSIDE" strokeWidth="0.0" text="System Message" visible="false" />
    </children>
 </AnchorPane>

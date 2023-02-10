@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginPageController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CustomerViewController">
    <children>
       <TableView fx:id="customerTable" layoutX="167.0" layoutY="55.0" prefHeight="273.0" prefWidth="576.0">
         <columns>
@@ -19,12 +19,12 @@
             <TableColumn fx:id="customerDivisionColumn" prefWidth="117.0" text="Division Number" />
         </columns>
       </TableView>
-      <ButtonBar layoutX="206.0" layoutY="328.0" prefHeight="40.0" prefWidth="499.0">
+      <ButtonBar layoutX="162.0" layoutY="328.0" prefHeight="40.0" prefWidth="555.0">
         <buttons>
-          <Button mnemonicParsing="false" onAction="#onAddAppointment" text="Add Appointment" />
             <Button mnemonicParsing="false" onAction="#onAddCustomer" text="Add Customer" />
             <Button mnemonicParsing="false" onAction="#onEditCustomer" text="Edit Customer" />
-            <Button mnemonicParsing="false" onAction="#onDeleteCustomer" text="Delete Customer" />
+            <Button mnemonicParsing="false" onAction="#onDeleteCustomer" prefHeight="25.0" text="Delete Customer" />
+          <Button mnemonicParsing="false" onAction="#onViewAppointment" prefHeight="25.0" prefWidth="123.0" text="View Appointments" />
         </buttons>
       </ButtonBar>
       <Text fx:id="systemMessageText" layoutX="439.0" layoutY="564.0" strokeType="OUTSIDE" strokeWidth="0.0" text="System Message" visible="false" />
