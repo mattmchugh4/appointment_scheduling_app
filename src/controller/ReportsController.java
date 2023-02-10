@@ -319,10 +319,6 @@ public class ReportsController implements Initializable {
         appointmentTable.setItems(appointments);
     }
 
-    public void monthTypeAction(ActionEvent actionEvent) {
-
-    }
-
     public void onViewAppointments(ActionEvent actionEvent) throws IOException {
         Stage newStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/ViewAppointmentsForm.fxml"));
@@ -356,5 +352,64 @@ public class ReportsController implements Initializable {
         }
         countryAnswer.setText(Integer.toString(count));
         countryAnswer.setVisible(true);
+    }
+
+    public void onSubmit(ActionEvent actionEvent) throws SQLException {
+        String type = (String) typeBox.getValue();
+        String month = (String) monthBox.getValue();
+        int count = 0;
+
+        int intMonth = 0;
+        switch(month) {
+            case "January":
+                intMonth = 1;
+                break;
+            case "February":
+                intMonth = 2;
+                break;
+            case "March":
+                intMonth = 3;
+                break;
+            case "April":
+                intMonth = 4;
+                break;
+            case "May":
+                intMonth = 5;
+                break;
+            case "June":
+                intMonth = 6;
+                break;
+            case "July":
+                intMonth = 7;
+                break;
+            case "August":
+                intMonth = 8;
+                break;
+            case "September":
+                intMonth = 9;
+                break;
+            case "October":
+                intMonth = 10;
+                break;
+            case "November":
+                intMonth = 11;
+                break;
+            case "December":
+                intMonth = 12;
+                break;
+        }
+
+        String sqlStatement = "SELECT * FROM Appointments";
+        ResultSet result = Query.run(sqlStatement);
+        while(result.next()) {
+            LocalDateTime dateTime = result.getTimestamp("Start").toLocalDateTime();
+            String returnedType = result.getString("Type");
+            int returnedMonth = dateTime.getMonth().getValue();
+            if(returnedMonth == intMonth && type.equals(returnedType)){
+                count += 1;
+            }
+        }
+        monthTypeAnswer.setText(Integer.toString(count));
+        monthTypeAnswer.setVisible(true);
     }
 }

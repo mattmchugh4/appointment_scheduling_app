@@ -31,57 +31,58 @@
          </font>
       </Text>
       <ComboBox fx:id="contactBox" layoutX="371.0" layoutY="288.0" onAction="#onContactChange" prefWidth="150.0" promptText="Contact" />
-      <Text layoutX="290.0" layoutY="347.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Reports by Month/Type">
+      <Text layoutX="278.0" layoutY="347.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Reports by Month/Type">
          <font>
             <Font size="24.0" />
          </font>
       </Text>
-      <ComboBox fx:id="monthBox" layoutX="206.0" layoutY="374.0" prefWidth="150.0" />
-      <ComboBox fx:id="typeBox" layoutX="396.0" layoutY="374.0" onAction="#monthTypeAction" prefWidth="150.0" />
-      <Line endX="-3.0" endY="-24.0" layoutX="577.0" layoutY="387.0" startX="-3.0" startY="20.0" />
-      <Text fx:id="monthTypeAnswer" layoutX="610.0" layoutY="390.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" visible="false">
+      <ComboBox fx:id="monthBox" layoutX="194.0" layoutY="374.0" prefWidth="150.0" />
+      <ComboBox fx:id="typeBox" layoutX="384.0" layoutY="374.0" prefWidth="150.0" />
+      <Line endX="-3.0" endY="-24.0" layoutX="642.0" layoutY="387.0" startX="-3.0" startY="20.0" />
+      <Text fx:id="monthTypeAnswer" layoutX="669.0" layoutY="390.0" strokeType="OUTSIDE" strokeWidth="0.0" text="T" visible="false">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <Text layoutX="269.0" layoutY="368.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Month">
+      <Text layoutX="257.0" layoutY="368.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Month">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Text layoutX="456.0" layoutY="368.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type">
+      <Text layoutX="444.0" layoutY="368.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Text layoutX="609.0" layoutY="367.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Result">
+      <Text layoutX="656.0" layoutY="367.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Result">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Button layoutX="384.0" layoutY="529.0" mnemonicParsing="false" onAction="#onViewAppointments" prefHeight="25.0" prefWidth="150.0" text="Return to Appointments" />
-      <Text layoutX="259.0" layoutY="445.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of Customers By Country">
+      <Button layoutX="375.0" layoutY="533.0" mnemonicParsing="false" onAction="#onViewAppointments" prefHeight="25.0" prefWidth="150.0" text="Return to Appointments" />
+      <Text layoutX="259.0" layoutY="441.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of Customers By Country">
          <font>
             <Font size="24.0" />
          </font>
       </Text>
-      <ComboBox fx:id="countryBox" layoutX="331.0" layoutY="486.0" onAction="#onCountryChange" prefWidth="150.0" />
-      <Line endX="-3.0" endY="-24.0" layoutX="512.0" layoutY="499.0" startX="-3.0" startY="20.0" />
-      <Text layoutX="391.0" layoutY="480.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Country">
+      <ComboBox fx:id="countryBox" layoutX="331.0" layoutY="482.0" onAction="#onCountryChange" prefWidth="150.0" />
+      <Line endX="-3.0" endY="-24.0" layoutX="512.0" layoutY="495.0" startX="-3.0" startY="20.0" />
+      <Text layoutX="391.0" layoutY="476.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Country">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Text layoutX="544.0" layoutY="478.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Result">
+      <Text layoutX="544.0" layoutY="474.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Result">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <Text fx:id="countryAnswer" layoutX="546.0" layoutY="504.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" visible="false">
+      <Text fx:id="countryAnswer" layoutX="557.0" layoutY="500.0" strokeType="OUTSIDE" strokeWidth="0.0" text="T" visible="false">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
       <Text fx:id="systemMessageText" fill="#ee1111" layoutX="404.0" layoutY="585.0" strokeType="OUTSIDE" strokeWidth="0.0" text="System Message" visible="false" />
+      <Button layoutX="570.0" layoutY="374.0" mnemonicParsing="false" onAction="#onSubmit" text="Submit" />
    </children>
 </AnchorPane>
