@@ -10,12 +10,19 @@ import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import utilities.Utility;
+/**
+ * The LoginMessageController class is responsible for displaying messages to the user after logging in,
+ * such as the current date and time, welcome message, upcoming appointments,
+ * and appointment details.
+ *
+ * @author Matt McHugh
+ *
+ */
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
@@ -27,6 +34,11 @@ public class LoginMessageController implements Initializable{
     public Text appointmentDetails;
     private Parent scene;
 
+    /**
+     * The onClickApplication method switches the current page to the ViewAppointmentsForm page.
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onClickApplication(ActionEvent actionEvent) throws IOException {
         Stage loginPageStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/ViewAppointmentsForm.fxml"));
@@ -35,6 +47,16 @@ public class LoginMessageController implements Initializable{
         loginPageStage.show();
     }
 
+    /**
+     * The initialize method initializes the messages displayed to the user after logging in.
+     * It retrieves the user's login name, calculates the current date and time,
+     * retrieves the user's appointments from the database, and checks if any appointments
+     * are scheduled to begin within the next 15 minutes. If there is, the method displays
+     * an upcoming appointment message and the details of the appointment.
+     *
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
