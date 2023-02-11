@@ -1,4 +1,13 @@
 package utilities;
+/**
+ * Utility class contains various helper functions to be used throughout the application. It also contains stored
+ * variables that can be accessed. Lambda expressions are used in the creation of the variables HOURS and MINUTES.
+ * Use of these expression provides a concise way to create these variables and allows the creation to be in one line.
+ * This improves the readability of the code and would make it easier to maintain.
+ *
+ * @author Matt McHugh
+ *
+ */
 
 import dao.Query;
 import javafx.collections.FXCollections;
@@ -16,19 +25,20 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public abstract class Utility {
-        public static final ObservableList<String> HOURS = FXCollections.observableArrayList();
-        public static final ObservableList<String> MINUTES = FXCollections.observableArrayList();
-        public static String userLoginName = null;
-        static {
-            for (int i = 1; i <= 24; i++) {
-                HOURS.add(String.valueOf(i));
-            }
-            for (int i = 0; i <= 59; i++) {
-                MINUTES.add(String.format("%02d", i));
-            }
-        }
+    public static final ObservableList<String> HOURS = FXCollections.observableArrayList(IntStream.rangeClosed(1, 24).mapToObj(String::valueOf).collect(Collectors.toList()));
+    public static final ObservableList<String> MINUTES = FXCollections.observableArrayList(IntStream.rangeClosed(0, 59).mapToObj(i -> String.format("%02d", i)).collect(Collectors.toList()));
+    public static String userLoginName = null;
+
+    /**
+     * Gets all customers from the database.
+     * @return
+     * @throws SQLException
+     * @throws Exception
+     */
     public static ObservableList<Customer> getAllCustomers() throws SQLException, Exception{
         ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
         String sqlStatement = "SELECT * FROM customers";
@@ -45,12 +55,26 @@ public abstract class Utility {
         }
         return allCustomers;
     }
+
+    /**
+     * Converts a local date-time to UTC.
+     *
+     * @param localDateTime
+     * @return
+     */
     public static LocalDateTime convertTimeToUTC(LocalDateTime localDateTime) {
         ZonedDateTime newZonedDateTime = ZonedDateTime.of(localDateTime, ZoneId.systemDefault());
         ZonedDateTime newUTZonedCDateTime = newZonedDateTime.withZoneSameInstant(ZoneId.of("UTC"));
         LocalDateTime newUTCTime = newUTZonedCDateTime.toLocalDateTime();
         return newUTCTime;
     }
+
+    /**
+     * Converts a UTC date-time to local.
+     *
+     * @param utcDateTime
+     * @return
+     */
     public static LocalDateTime convertTimeToLocal(LocalDateTime utcDateTime) {
         ZonedDateTime utcZonedDateTime = ZonedDateTime.of(utcDateTime, ZoneId.of("UTC"));
         ZonedDateTime localZonedDateTime = utcZonedDateTime.withZoneSameInstant(ZoneId.systemDefault());
@@ -58,6 +82,12 @@ public abstract class Utility {
         return localDateTime;
     }
 
+    /**
+     * Gets all the appointments from the database.
+     * @return
+     * @throws SQLException
+     * @throws Exception
+     */
     public static ObservableList<Appointment> getAllAppointments() throws SQLException, Exception{
         ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
         String sqlStatement = "SELECT * FROM appointments";
@@ -101,6 +131,16 @@ public abstract class Utility {
         int hour = estDateTime.getHour();
         return (hour >= 8 && hour < 22);
     }
+
+    /**
+     * This method is used to determine if a new appointment time has a conflict with existing appointments with that customer.
+     * @param startTime
+     * @param endTime
+     * @param customerID
+     * @param appointmentID
+     * @return
+     * @throws SQLException
+     */
     public static boolean hasConflict(LocalDateTime startTime, LocalDateTime endTime, int customerID, int appointmentID) throws SQLException {
         boolean isConflict = false;
         String sql = "SELECT * FROM appointments WHERE Customer_ID = ?";
@@ -222,6 +262,11 @@ public abstract class Utility {
         return customerID;
     }
 
+    /**
+    * This method takes a string a text object and creates an UI system message.
+     * @param textObject
+     * @param message
+     */
     public static void setSystemMessage(Text textObject, String message) {
         textObject.setText(message);
         textObject.setFill(Color.GREEN);
@@ -233,6 +278,11 @@ public abstract class Utility {
         textObject.setVisible(true);
     }
 
+    /**
+     * This method takes a string a text object and creates an UI error message.
+     * @param textObject
+     * @param message
+     */
     public static void setErrorMessage(Text textObject,String message) {
         textObject.setText(message);
         textObject.setFill(Color.RED);
