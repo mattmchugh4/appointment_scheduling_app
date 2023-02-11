@@ -1,10 +1,21 @@
 package dao;
-
+/**
+ * The query class provides a method to run SQL statements on the database.
+ *
+ * @author Matt McHugh
+ *
+ */
 import java.sql.*;
 
 
 public abstract class Query {
-
+    /**
+     *  Runs a SQL statement on the database using the specified parameters.
+     * @param sql
+     * @param values
+     * @return
+     * @throws SQLException
+     */
     public static ResultSet run(String sql, Object... values) throws SQLException {
         ResultSet result = null;
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);

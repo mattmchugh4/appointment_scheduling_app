@@ -1,5 +1,11 @@
 package controller;
-
+/**
+ * The CustomerViewController class is a controller for the customers view.
+ * It handles the user inputs  It handles the user inputs and displays customer information to the UI.
+ *
+ * @author Matt McHugh
+ *
+ */
 import dao.Query;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
@@ -21,7 +27,6 @@ import utilities.Utility;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;

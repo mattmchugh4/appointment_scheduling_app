@@ -1,5 +1,10 @@
 package dao;
-
+/**
+ * The JDBC class handles the database connection.
+ *
+ * @author Matt McHugh
+ *
+ */
 import java.sql.Connection;
 import java.sql.DriverManager;
 
@@ -14,6 +19,9 @@ public abstract class JDBC {
     private static String password = "Passw0rd!"; // Password
     public static Connection connection;  // Connection Interface
 
+    /**
+     * Opens a connection to the database using the specified JDBC URL, username, and password.
+     */
     public static void openConnection()
     {
         try {
@@ -25,7 +33,9 @@ public abstract class JDBC {
             System.out.println("Error:" + e.getMessage());
         }
     }
-
+    /**
+     * Closes the connection to the database.
+     */
     public static void closeConnection() {
         try {
             connection.close();

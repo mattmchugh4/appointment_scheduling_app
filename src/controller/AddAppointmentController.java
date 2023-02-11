@@ -86,7 +86,6 @@ public class AddAppointmentController implements Initializable {
                 allUsers.add(userName);
             }
             userBox.setItems(allUsers);
-            userBox.setValue("test");
 
 
         } catch (SQLException e) {

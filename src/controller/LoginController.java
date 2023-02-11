@@ -1,5 +1,12 @@
 package controller;
-
+/**
+ * The LoginController class is a controller for the login page.
+ * It handles the user inputs when logging in and displays an error message or brings the user to the first page of the
+ * application based on the entered inputs.
+ *
+ * @author Matt McHugh
+ *
+ */
 import dao.Query;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -21,6 +28,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
 
@@ -29,34 +37,41 @@ public class LoginController implements Initializable {
     public TextField PasswordTextInput;
     public TextField UsernameTextInput;
     public Text systemMessageText;
+    public Label usernameStatic;
+    public Label passwordStatic;
+    public Button loginStatic;
+    public Text locationStaticText;
+    public Text applicationLoginStatic;
     private Parent scene;
     private ResourceBundle resourceBundle;
+    private String errorMessage = "Invalid Username/Password";
 
-
+    /**
+     * This method initializes the login page and handles translation of the page into french based on the users local language.
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         TimeZone userTimeZone = TimeZone.getDefault();
         ZoneId userZone = userTimeZone.toZoneId();
         UserLocationLabel.setText(userZone.toString());
 
-//        Locale userLocale = Locale.getDefault();
-//        this.resourceBundle = ResourceBundle.getBundle("translations/Translations", userLocale);
-//        systemMessageText.setText(this.resourceBundle.getString("LoginError"));
-//
-//        ResourceBundle bundle = ResourceBundle.getBundle("LoginController", Locale.FRANCE);
-//        UserLocationLabel.setText(bundle.getString("UserLocationLabel"));
-//...
-//        bufferedWriter.write(MessageFormat.format(bundle.getString("logLine"), username, new Date()));
-//...
-//        String attemptLine = bundle.getString("attemptLine." + (isSuccessful ? "successful" : "failed"));
-//        bufferedWriter.write(attemptLine);
-//...
-//        loginPageStage.setTitle(bundle.getString("LoginPageForm.title"));
-
+        Locale userLocale = Locale.getDefault();
+        if (userLocale.getCountry() == "FR") {
+            ResourceBundle rb = ResourceBundle.getBundle("LoginController", userLocale);
+            locationStaticText.setText(rb.getString("Location"));
+            usernameStatic.setText(rb.getString("Username"));
+            passwordStatic.setText(rb.getString("Password"));
+            loginStatic.setText(rb.getString("Login"));
+            applicationLoginStatic.setText(rb.getString("Application"));
+            errorMessage = rb.getString("Error");
+        }
     }
 
     /**
-     *
+     *This method handles the user clicking the login button. It either displays an error message if the
+     * wrong username/password is entered or it brings the user to the first page of the application.
      * @param actionEvent
      * @throws IOException
      */
@@ -96,7 +111,7 @@ public class LoginController implements Initializable {
         bufferedWriter.newLine();
         String failedAttempt = "Login attempt failed";
         bufferedWriter.write(failedAttempt);
-        Utility.setErrorMessage(systemMessageText, "Invalid Username/Password");
+        Utility.setErrorMessage(systemMessageText, errorMessage);
         bufferedWriter.close();
     }
 }

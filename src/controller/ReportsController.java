@@ -1,5 +1,11 @@
 package controller;
-
+/**
+ * The ReportsController class is a controller for the reports view.
+ * It handles and displays reports based on user inputs.
+ *
+ * @author Matt McHugh
+ *
+ */
 import dao.Query;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
