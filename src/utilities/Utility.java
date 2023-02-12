@@ -1,8 +1,8 @@
 package utilities;
 /**
  * Utility class contains various helper functions to be used throughout the application. It also contains stored
- * variables that can be accessed. Lambda expressions are used in the creation of the variables HOURS and MINUTES.
- * Use of these expression provides a concise way to create these variables and allows the creation to be in one line.
+ * variables that can be accessed. LAMBDA EXPRESSION JUSTIFICATION:Lambda expressions are used in the creation of the variables HOURS and MINUTES.
+ * Use of these expression provides a concise way to create these variables and allows the creation to be a single line of code.
  * This improves the readability of the code and would make it easier to maintain.
  *
  * @author Matt McHugh

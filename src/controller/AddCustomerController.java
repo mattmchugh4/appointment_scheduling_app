@@ -60,7 +60,7 @@ public class AddCustomerController implements Initializable {
     };
     /**
      * Initialize the combo box of countries and creates the listener to set the list for the division combo box when
-     * the country changes.The lambda expression in this code provides a concise way to add a listener to the form elements.
+     * the country changes.LAMBDA EXPRESSION JUSTIFICATION: The lambda expression in this code provides a concise way to add a listener to the form elements.
      * This improves the readability of the code and would make it easier to maintain.
      *
      * @param url            URL
