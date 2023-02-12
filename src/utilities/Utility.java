@@ -1,14 +1,4 @@
 package utilities;
-/**
- * Utility class contains various helper functions to be used throughout the application. It also contains stored
- * variables that can be accessed. LAMBDA EXPRESSION JUSTIFICATION:Lambda expressions are used in the creation of the variables HOURS and MINUTES.
- * Use of these expression provides a concise way to create these variables and allows the creation to be a single line of code.
- * This improves the readability of the code and would make it easier to maintain.
- *
- * @author Matt McHugh
- *
- */
-
 import dao.Query;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,6 +18,15 @@ import java.time.ZonedDateTime;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * Utility class contains various helper functions to be used throughout the application. It also contains stored
+ * variables that can be accessed. LAMBDA EXPRESSION JUSTIFICATION:Lambda expressions are used in the creation of the variables HOURS and MINUTES.
+ * Use of these expression provides a concise way to create these variables and allows the creation to be a single line of code.
+ * This improves the readability of the code and would make it easier to maintain.
+ *
+ * @author Matt McHugh
+ *
+ */
 public abstract class Utility {
     public static final ObservableList<String> HOURS = FXCollections.observableArrayList(IntStream.rangeClosed(1, 24).mapToObj(String::valueOf).collect(Collectors.toList()));
     public static final ObservableList<String> MINUTES = FXCollections.observableArrayList(IntStream.rangeClosed(0, 59).mapToObj(i -> String.format("%02d", i)).collect(Collectors.toList()));

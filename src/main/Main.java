@@ -1,10 +1,5 @@
 package main;
-/**
- * The main class is the main.java file for the program. It initializes the application and calls the login form view.
- *
- * @author Matt McHugh
- *
- */
+
 import dao.JDBC;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +7,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-
+/**
+ * The main class is the main.java file for the program. It initializes the application and calls the login form view.
+ *
+ * @author Matt McHugh
+ *
+ */
 public class Main extends Application {
     /**
      * The main method opens a JDBC connection, launches the application, and closes the JDBC connection.

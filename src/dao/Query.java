@@ -1,13 +1,13 @@
 package dao;
+
+import java.sql.*;
+
 /**
  * The query class provides a method to run SQL statements on the database.
  *
  * @author Matt McHugh
  *
  */
-import java.sql.*;
-
-
 public abstract class Query {
     /**
      *  Runs a SQL statement on the database using the specified parameters.

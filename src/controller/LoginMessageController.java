@@ -10,14 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import utilities.Utility;
-/**
- * The LoginMessageController class is responsible for displaying messages to the user after logging in,
- * such as the current date and time, welcome message, upcoming appointments,
- * and appointment details.
- *
- * @author Matt McHugh
- *
- */
+
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,7 +19,14 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
-
+/**
+ * The LoginMessageController class is responsible for displaying messages to the user after logging in,
+ * such as the current date and time, welcome message, upcoming appointments,
+ * and appointment details.
+ *
+ * @author Matt McHugh
+ *
+ */
 public class LoginMessageController implements Initializable{
     public Text dateTimeMessage;
     public Text welcomeMessage;

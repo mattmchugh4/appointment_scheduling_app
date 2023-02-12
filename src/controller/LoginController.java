@@ -1,12 +1,5 @@
 package controller;
-/**
- * The LoginController class is a controller for the login page.
- * It handles the user inputs when logging in and displays an error message or brings the user to the first page of the
- * application based on the entered inputs.
- *
- * @author Matt McHugh
- *
- */
+
 import dao.Query;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -31,7 +24,14 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.TimeZone;
-
+/**
+ * The LoginController class is a controller for the login page.
+ * It handles the user inputs when logging in and displays an error message or brings the user to the first page of the
+ * application based on the entered inputs.
+ *
+ * @author Matt McHugh
+ *
+ */
 public class LoginController implements Initializable {
     public Label UserLocationLabel;
     public TextField PasswordTextInput;

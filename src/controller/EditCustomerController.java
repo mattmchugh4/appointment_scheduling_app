@@ -1,12 +1,3 @@
-/**
- * The EditCustomerController class is a controller for the EditCustomerForm view.
- * It handles the user inputs when the "edit customer" option is selected. A new customer can either be saved,
- * or the process can be canceled without saving changes.
- *
- * @author Matt McHugh
- *
- */
-
 package controller;
 
 import dao.Query;
@@ -29,7 +20,14 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-
+/**
+ * The EditCustomerController class is a controller for the EditCustomerForm view.
+ * It handles the user inputs when the "edit customer" option is selected. A new customer can either be saved,
+ * or the process can be canceled without saving changes.
+ *
+ * @author Matt McHugh
+ *
+ */
 public class EditCustomerController implements Initializable {
     public TextField nameInput;
     public ComboBox countryBox;

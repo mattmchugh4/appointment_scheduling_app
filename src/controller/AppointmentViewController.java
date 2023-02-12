@@ -1,11 +1,5 @@
 package controller;
-/**
- * The AppointmentViewController class is a controller for the appointments view.
- * It handles the user inputs and displays appointments to the UI.
- *
- * @author Matt McHugh
- *
- */
+
 import dao.Query;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,7 +25,13 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
+/**
+ * The AppointmentViewController class is a controller for the appointments view.
+ * It handles the user inputs and displays appointments to the UI.
+ *
+ * @author Matt McHugh
+ *
+ */
 public class AppointmentViewController implements Initializable {
 
     @FXML

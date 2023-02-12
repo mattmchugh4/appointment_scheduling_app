@@ -1,11 +1,4 @@
-/**
- * The AddCustomerForm class is a controller for the AddCustomerForm view.
- * It handles the user inputs when the "create new customer" option is selected. A new customer can either be saved,
- * or the process can be canceled without saving changes.
- *
- * @author Matt McHugh
- *
- */
+
 
 package controller;
 
@@ -28,7 +21,14 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-
+/**
+ * The AddCustomerForm class is a controller for the AddCustomerForm view.
+ * It handles the user inputs when the "create new customer" option is selected. A new customer can either be saved,
+ * or the process can be canceled without saving changes.
+ *
+ * @author Matt McHugh
+ *
+ */
 public class AddCustomerController implements Initializable {
     public TextField nameInput;
     public ComboBox countryBox;

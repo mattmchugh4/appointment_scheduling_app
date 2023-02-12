@@ -1,12 +1,10 @@
 package model;
-
 /**
  * The customer class creates a "Customer" object.
  *
  * @author Matt McHugh
  *
  */
-
 public class Customer {
     public int getId() {
         return id;

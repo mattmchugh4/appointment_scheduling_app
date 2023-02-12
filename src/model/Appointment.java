@@ -1,14 +1,12 @@
 package model;
-
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 /**
  * The Appointment class creates a "Appointment" object.
  *
  * @author Matt McHugh
  *
  */
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 public class Appointment {
 
         public int appointmentID;

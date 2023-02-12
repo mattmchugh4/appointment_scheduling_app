@@ -1,12 +1,4 @@
 package controller;
-/**
- * The AddAppointmentForm class is a controller for the AddCustomerForm view.
- * It handles the user inputs when the "create new appointment" option is selected. A new appointment can either be saved,
- * or the process can be canceled without saving changes.
- *
- * @author Matt McHugh
- *
- */
 import dao.Query;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,7 +22,14 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.*;
 import java.util.ResourceBundle;
-
+/**
+ * The AddAppointmentForm class is a controller for the AddCustomerForm view.
+ * It handles the user inputs when the "create new appointment" option is selected. A new appointment can either be saved,
+ * or the process can be canceled without saving changes.
+ *
+ * @author Matt McHugh
+ *
+ */
 public class EditAppointmentController implements Initializable {
     public TextField titleInput;
     public TextField descriptionInput;
