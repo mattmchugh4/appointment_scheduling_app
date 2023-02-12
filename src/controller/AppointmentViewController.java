@@ -63,7 +63,12 @@ public class AppointmentViewController implements Initializable {
     private Parent scene;
     private ObservableList<Appointment> appointments = FXCollections.observableArrayList();
 
-
+    /**
+     * Initialize appointment table and populates it with information from all appointments.
+     *
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
@@ -271,6 +276,12 @@ public class AppointmentViewController implements Initializable {
         appointmentTable.setItems(appointments);
     }
 
+    /**
+     *  The onclickReport method is a event handler that handles the button press event to view reports. It opens the
+     *  reports page.
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onClickReport(ActionEvent actionEvent) throws IOException {
         Stage newStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/ReportsForm.fxml"));

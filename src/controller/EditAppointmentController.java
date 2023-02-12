@@ -70,7 +70,6 @@ public class EditAppointmentController implements Initializable {
                 allContacts.add(contactName);
             }
             contactBox.setItems(allContacts);
-//            contactBox.setValue("Li Lee");
 
             ObservableList<String> allCustomerNames = FXCollections.observableArrayList();
             String customerStatement = "SELECT Customer_Name FROM customers";
@@ -80,7 +79,6 @@ public class EditAppointmentController implements Initializable {
                 allCustomerNames.add(customerName);
             }
             customerBox.setItems(allCustomerNames);
-//            customerBox.setValue("blah");
 
             ObservableList<String> allUsers = FXCollections.observableArrayList();
             String userStatement = "SELECT User_Name FROM users";
@@ -90,7 +88,6 @@ public class EditAppointmentController implements Initializable {
                 allUsers.add(userName);
             }
             userBox.setItems(allUsers);
-//            userBox.setValue("test");
 
 
         } catch (SQLException e) {
@@ -98,7 +95,12 @@ public class EditAppointmentController implements Initializable {
         }
     }
 
-
+    /**
+     * The purpose of this method is to get the selected appointment to modify. It then uses the information from that
+     * appointment to populate the elements in the view.
+     * @param appointmentToModify
+     * @throws SQLException
+     */
     public void getAppointment(Appointment appointmentToModify) throws SQLException {
         int appointmentID = appointmentToModify.getAppointmentID();
         appointmentIDInput.setText(String.valueOf(appointmentID));

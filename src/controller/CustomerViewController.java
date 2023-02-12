@@ -59,7 +59,7 @@ public class CustomerViewController implements Initializable {
     private ObservableList<Customer> customers = FXCollections.observableArrayList();
 
     /**
-     *
+     * Initialize customer table and populates it with information from all customers.
      * @param url
      * @param resourceBundle
      */
@@ -121,6 +121,12 @@ public class CustomerViewController implements Initializable {
         }
     }
 
+    /**
+     * The onEditCustomer method handles the event when a user click the edit button. It passes the selected customer to
+     * the EditCustomerController and opens the view or displays an error message if no customer is selected.
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onEditCustomer(ActionEvent actionEvent) throws IOException {
         try {
             Customer selectedCustomer = customerTable.getSelectionModel().getSelectedItem();
@@ -143,6 +149,11 @@ public class CustomerViewController implements Initializable {
         }
     }
 
+    /**
+     * The method `onAddCustomer` opens the Add Customer Form when the "Add" button is clicked.
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onAddCustomer(ActionEvent actionEvent) throws IOException {
         Stage newStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/AddCustomerForm.fxml"));
@@ -151,6 +162,11 @@ public class CustomerViewController implements Initializable {
         newStage.show();
     }
 
+    /**
+     * This method handles the event when the customer clicks the appointments button. It opens the appointments view.
+     * @param actionEvent
+     * @throws IOException
+     */
     public void onViewAppointment(ActionEvent actionEvent) throws IOException {
         Stage newStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/view/ViewAppointmentsForm.fxml"));

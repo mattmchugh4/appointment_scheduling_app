@@ -58,7 +58,7 @@ public class LoginController implements Initializable {
         UserLocationLabel.setText(userZone.toString());
 
         Locale userLocale = Locale.getDefault();
-        if (userLocale.getCountry() == "FR") {
+        if (userLocale.getLanguage().equals("fr")) {
             ResourceBundle rb = ResourceBundle.getBundle("LoginController", userLocale);
             locationStaticText.setText(rb.getString("Location"));
             usernameStatic.setText(rb.getString("Username"));

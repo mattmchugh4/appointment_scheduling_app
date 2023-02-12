@@ -1,5 +1,11 @@
 package model;
 
+/**
+ * The Appointment class creates a "Appointment" object.
+ *
+ * @author Matt McHugh
+ *
+ */
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -142,6 +148,22 @@ public class Appointment {
                 this.contactName = contactName;
         }
 
+        /**
+         * This is the constructor for the appointment class. It creates a new instance of an appointment object.
+         * @param appointmentID
+         * @param title
+         * @param description
+         * @param localStartDateTime
+         * @param localEndDateTime
+         * @param customerID
+         * @param contactID
+         * @param location
+         * @param type
+         * @param userID
+         * @param contactName
+         * @param userName
+         * @param customerName
+         */
         public Appointment(int appointmentID, String title, String description, LocalDateTime localStartDateTime,
                            LocalDateTime localEndDateTime, int customerID, int contactID, String location, String type, int userID,
                            String contactName, String userName, String customerName) {
