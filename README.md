@@ -1,4 +1,4 @@
-Appointment Scheduling Application – Java | JavaFX | MySQL
+<b>Appointment Scheduling Application – Java | JavaFX | MySQL</b>
 
 This is a Java application that enables users to efficiently schedule and manage appointments for new and existing customers. The application provides a user-friendly interface that simplifies the process of scheduling appointments and ensures easy retrieval and display of relevant information. The application was developed using the JavaFX user interface toolkit and MySQL database management system.
 
@@ -10,8 +10,8 @@ User-friendly interface for easy appointment scheduling and management
 
 Technologies:
 
-Java
-JavaFX
+Java<br>
+JavaFX<br>
 MySQL
 
 Prerequisites
@@ -26,3 +26,7 @@ mysql-connector-java-8.0.25
 To use the application, simply download the project files and import them into your preferred IDE.
 Create a new MySQL database and import the provided SQL script to create the necessary tables and data.
 Run the application and start scheduling appointments!
+
+![Screenshot 2023-02-28 at 9 26 27 PM](https://user-images.githubusercontent.com/114327452/222037442-8461be00-690f-4446-a74e-c8f867588825.png)
+
+
